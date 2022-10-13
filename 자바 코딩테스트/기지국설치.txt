@@ -1,0 +1,23 @@
+import java.util.*;
+class Solution {
+    public int solution(int n, int[] stations, int w) {
+        int now =1;
+        int stationsIdx=0;
+        int answer=0;
+        
+        while(now<=n){
+            if(stationsIdx>=stations.length||now<stations[stationsIdx]-w){
+                answer++;
+                now +=w*2+1;
+            }else{
+                now=stations[stationsIdx]+w+1;
+                stationsIdx++;
+            }
+                
+            
+        }
+       
+
+        return answer;
+    }
+}

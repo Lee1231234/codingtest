@@ -1,0 +1,13 @@
+class Solution {
+    public String solution(String s) {
+        String[] s_1 =s.split(" ");
+        int max= Integer.parseInt(s_1[0]);
+        int min= Integer.parseInt(s_1[0]);
+        for(String s_2 : s_1){
+            max=Math.max(max,Integer.parseInt(s_2));
+            min=Math.min(min,Integer.parseInt(s_2));
+        }
+        String answer = min+" "+max;
+        return answer;
+    }
+}

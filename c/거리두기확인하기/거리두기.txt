@@ -1,0 +1,119 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+
+int func2(char places,char a){
+    
+    if(places==a){
+        return 0;
+    }else{
+        return 1;
+    }
+}
+int func3(char places,char a){
+   printf("%c %c\n",places,a);
+    if(places==a){
+        return 1;
+    }else{
+        return 0;
+    }
+}
+int func(char ***places, int number,int i,int rows,int cols){
+    int result =0;
+    switch(number){
+        case 0:           
+            if(rows==4){
+                if(cols==4){
+                    return 1;
+                }else{
+                    return func2(places[i][rows][cols+1],'P');
+                }
+            }else if(cols==4){
+                return func2(places[i][rows+1][cols],'P');
+            }else{
+                if(func2(places[i][rows+1][cols],'P')==0||func2(places[i][rows][cols+1],'P')==0){
+                    return 0;
+                }else{
+                    return 1;
+                }
+            }
+                
+            break;
+        case 1:
+            
+            if(rows==0){
+                if(cols==0){
+                    result+=func3(places[i][rows+1][cols],'P');
+                    result+=func3(places[i][rows][cols+1],'P');
+                }else if(cols==4){
+                    result+=func3(places[i][rows+1][cols],'P');
+                    result+=func3(places[i][rows][cols-1],'P');
+                }else{
+                    result+=func3(places[i][rows+1][cols],'P');
+                    result+=func3(places[i][rows][cols+1],'P');
+                    result+=func3(places[i][rows][cols-1],'P');
+                }
+            }else if(rows==4){
+                if(cols==0){
+                    result+=func3(places[i][rows-1][cols],'P');
+                    result+=func3(places[i][rows][cols+1],'P');
+                }else if(cols==4){
+                    result+=func3(places[i][rows-1][cols],'P');
+                    result+=func3(places[i][rows][cols-1],'P');
+                }else{
+                  
+                    result+=func3(places[i][rows-1][cols],'P');
+                    result+=func3(places[i][rows][cols+1],'P');
+                    result+=func3(places[i][rows][cols-1],'P');
+                }
+            }else if(cols==0){
+                result+=func3(places[i][rows-1][cols],'P');
+                result+=func3(places[i][rows][cols+1],'P');
+                result+=func3(places[i][rows+1][cols],'P');
+            }else if(cols==4){
+                result+=func3(places[i][rows-1][cols],'P');
+                result+=func3(places[i][rows][cols-1],'P');
+                result+=func3(places[i][rows+1][cols],'P');
+            }else{
+                result+=func3(places[i][rows+1][cols],'P');
+                result+=func3(places[i][rows-1][cols],'P');
+                result+=func3(places[i][rows][cols+1],'P');
+                result+=func3(places[i][rows][cols-1],'P');
+            }
+                return result;
+            break;
+        
+    }
+}
+
+// places_rows는 2차원 배열 places의 행 길이, places_cols는 2차원 배열 places의 열 길이입니다.
+// 파라미터로 주어지는 문자열은 const로 주어집니다. 변경하려면 문자열을 복사해서 사용하세요.
+int* solution(const char*** places, size_t places_rows, size_t places_cols) {
+    
+  int* answer = (int*)malloc(sizeof(int)*5);
+    // return 값은 malloc 등 동적 할당을 사용해주세요. 할당 길이는 상황에 맞게 변경해주세요.
+   for(int i=0;i<5;i++){   
+       int result=1;
+       for(int j=0;j<places_rows;j++){
+            if(result==0){
+               break;
+           }
+           for(int k=0;k<places_cols;k++){
+               char code = places[i][j][k];
+                 
+              if(code=='P'){
+                  if(func(places,0,i,j,k)==0){
+                      result=0;
+                  }
+              }else if(code=='O'){
+                   if(func(places,1,i,j,k)>1){
+                      result=0;
+                  }
+              }
+           }
+       }
+       answer[i]= result;
+   }
+   
+    return answer;
+}

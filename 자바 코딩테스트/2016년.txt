@@ -1,0 +1,20 @@
+class Solution {
+    public String solution(int a, int b) {
+        String[] array= {"FRI","SAT","SUN","MON","TUE","WED","THU"};
+        int[] month = {31,29,31,30,31,30,31,31,30,31,30,31};
+        int total_day=0,result;
+        for(int mon=0;mon<a-1;mon++){
+            total_day+=month[mon];
+        }
+        total_day+=b;
+        total_day%=7;
+        if(total_day==0){
+            result=6;
+        }else{
+            result=total_day-1;
+        }
+        
+        String answer = array[result];
+        return answer;
+    }
+}

@@ -1,0 +1,28 @@
+import java.util.*;
+class Solution {
+    public String solution(String new_id) {
+        String test = new_id;
+        test=test.toLowerCase();
+        
+        test = test.replaceAll("[^0-9a-z._-]","");        
+        test = test.replaceAll("\\.{1,}",".");
+        test = test.replaceAll("^[.]|[.]$","");
+        if(test.equals(""))
+            test="a";
+        
+        if(test.length()>=16)
+            test = test.substring(0,15);
+              
+        if(test.length()<3){
+            char a=test.charAt(test.length()-1);
+            while(test.length()!=3){
+                test += a;
+            }
+            
+        }
+        test = test.replaceAll("^[.]|[.]$","");
+        
+        System.out.println(test);
+        return test;
+    }
+}

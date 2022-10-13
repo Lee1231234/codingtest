@@ -1,0 +1,63 @@
+import java.util.*;
+class Solution {
+    static String[] d;
+    static HashMap<Character,Integer> map ;
+    static boolean[] visited;
+    static int[] ch;
+    static int answer;
+    public int solution(int n, String[] data) {
+        d= data;
+        visited = new boolean[8];
+        ch = new int[8];
+        answer =0;
+        map = new HashMap<>();
+        map.put('A',0);
+        map.put('C',1);
+        map.put('F',2);
+        map.put('J',3);
+        map.put('M',4);
+        map.put('N',5);
+        map.put('R',6);
+        map.put('T',7);
+        dfs(0);
+        
+        
+        return answer;
+    }
+    void dfs(int idx){
+        if(idx==8){
+            if(check()){
+                answer++;
+            }
+        }else{
+            for(int i=0;i<8;i++){
+                if (visited[i] != true) {
+                    visited[i] = true;
+                    ch[idx] = i;
+                    dfs(idx+1);                   
+                    visited[i] = false;;
+                 }
+            }
+        }
+    }
+    boolean check(){
+        int n1,n2,n4;
+        char n3;
+        for(String s : d){
+            n1 = ch[map.get(s.charAt(0))];
+            n2 = ch[map.get(s.charAt(2))];
+            n3 = s.charAt(3);
+            n4 = s.charAt(4)-'0' + 1;
+            if(n3 == '='){
+              if(Math.abs(n1-n2)!=n4) return false;
+            }else if(n3=='<'){
+              if(Math.abs(n1-n2)>=n4) return false;
+            }else{
+               if(Math.abs(n1-n2)<=n4) return false;
+            }
+           
+        }
+        return true;
+    }
+}
+//dfs를 이용한 순열문제 map을 이용하여 키값만들고 그것으로 구분하겠다.

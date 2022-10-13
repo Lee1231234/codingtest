@@ -1,0 +1,72 @@
+class Solution {
+    public int solution(int m, int n, String[] board) {
+        String[][] newboard = new String[m][n];
+       
+        
+        for(int i=0;i<m;i++){
+            String[] tmp = board[i].split("");
+            for(int j=0;j<n;j++)
+            newboard[i][j]=tmp[j];
+
+        }
+        int answer = 0;
+        while(true){
+            
+            int tmp2=answer;
+             int[][] newboard2 = new int[m][n];
+             for(int i=0;i<m-1;i++){
+                for(int j=0;j<n-1;j++){
+                    check(i,j,newboard2,newboard);
+                  
+                }
+                
+            }
+            for(int i=0;i<m;i++){
+                for(int j=0;j<n;j++){
+//                    System.out.print(newboard2[i][j]+" ");
+                    if(newboard2[i][j]>0){
+                        answer++;
+                        newboard[i][j]="0";
+                    }
+//                  System.out.print(newboard[i][j]+" ");
+                }
+//                System.out.println();
+            }
+            for(int i=m-1;i>=0;i--){
+                for(int j=n-1;j>=0;j--){
+                    if(newboard[i][j].equals("0")){
+                       for(int k =i;k>=0;k--){
+//                            System.out.print(newboard[k][j]+" ");
+                           if(!newboard[k][j].equals("0")){
+                              
+                               String temp =newboard[i][j];
+                                newboard[i][j]=newboard[k][j];
+                               newboard[k][j]=temp;
+                               break;
+                           }
+                       }
+                      
+                    }
+//                 System.out.print(newboard[i][j]+" ");
+                }
+ //               System.out.println();
+            }
+//            System.out.println(tmp2+" "+answer);
+            if(tmp2==answer){
+                break;
+            }
+        }
+      
+    
+        return answer;
+    }
+    void check(int i,int j,int[][] board,String[][] newboard){
+        if(!newboard[i][j].equals("0")&&newboard[i][j].equals(newboard[i+1][j])&&newboard[i][j].equals(newboard[i][j+1]) &&newboard[i][j].equals(newboard[i+1][j+1])){
+            board[i][j]++;
+            board[i][j+1]++;
+            board[i+1][j]++;
+            board[i+1][j+1]++;
+        }
+        
+    }
+}

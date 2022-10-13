@@ -1,0 +1,28 @@
+import java.util.Stack; //import
+
+class Solution
+{
+    Stack<Character> stack = new Stack<>();
+    public int solution(String s)
+    {
+        int answer = -1;
+        for(int i=0;i<s.length();i++){
+            char c= s.charAt(i);
+            if(!stack.empty()&&c==stack.peek()){               
+                    stack.pop();               
+            }else{
+                stack.push(c);
+            }
+        }
+        if(stack.empty()){
+            return 1;
+        }else{
+            return 0;
+        }
+        
+
+        // [실행] 버튼을 누르면 출력 값을 볼 수 있습니다.
+      
+
+    }
+}

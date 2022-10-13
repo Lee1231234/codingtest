@@ -1,0 +1,28 @@
+class Solution {
+    public int solution(int n, int k) {
+        String num = Long.toString(n,k);
+        int answer = 0;
+        
+        for(String number: num.split("0")){
+            boolean flag=false;
+            if(number.equals("1")||number.equals("")){
+                continue;
+            }
+            
+           Long number1 =Long.parseLong(number);
+           
+            for(Long i=2l;i<=Math.sqrt(number1);i++){
+                if(number1%i==0){
+                    
+                    flag=true;
+                    break;
+                }
+            }
+            if(!flag){
+                answer++;
+            }
+        }
+        
+        return answer;
+    }
+}

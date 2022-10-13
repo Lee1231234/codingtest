@@ -1,0 +1,53 @@
+import java.util.*;
+class Solution {
+    static int answer =0;
+    static boolean[] check = new boolean[10];
+    static HashSet<Integer> set =new HashSet<>();
+    public int solution(String numbers) {
+        String tmp = "";
+        for(int i=1;i<=numbers.length();i++){
+            dfs(numbers,tmp,i);
+        }
+        for(int i : set){
+          
+        }
+        cal();
+        return answer;
+    }
+    static void cal(){
+        for(int i : set){
+            if(i<2) continue;
+            int num=0;
+           for(int j=2;j<i;j++){
+               if(i%j==0){
+                   num=1;
+                   break;
+               }
+           }
+            if(num==0){
+                System.out.println(i);
+                 answer++;
+            }
+               
+                       
+            
+        }
+    }
+    static void dfs(String numbers,String tmp,int i){
+        if(tmp.length()==i){
+            set.add(Integer.parseInt(tmp));
+            return;
+        }
+        for(int j=0;j<numbers.length();j++){
+            if(check[j]) continue;
+            tmp += numbers.charAt(j);
+            check[j]=true;
+            dfs(numbers,tmp,i);
+            check[j]=false;
+            tmp = tmp.substring(0,tmp.length()-1);
+        }
+    }
+}
+                                  
+
+

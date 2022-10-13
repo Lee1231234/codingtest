@@ -1,0 +1,54 @@
+import java.util.*;
+class Solution {
+    
+    static List<String> answerList = new ArrayList<>();
+    static Map<String, Integer> hashMap = new HashMap<>();
+
+    public String[] solution(String[] orders, int[] course) {
+        
+        //정렬한번은 해야함
+        //오더 정렬
+        for(int i=0;i<orders.length;i++){
+            char[] order = orders[i].toCharArray();
+            Arrays.sort(order);
+            orders[i] =String.valueOf(order);
+        }
+        //조합을 만들자
+        for(int course_length : course){
+            //조합 
+            for(String order:orders){
+                combination("",order,course_length);
+            }
+            
+            //만든 조합 최대값 비교
+               if (!hashMap.isEmpty()) {
+                List<Integer> countList = new ArrayList<>(hashMap.values());
+                int max = Collections.max(countList);
+
+                if (max > 1)
+                    for (String key : hashMap.keySet())
+                        if (hashMap.get(key) == max)
+                            answerList.add(key);
+                hashMap.clear();
+            }       
+          
+        }
+        Collections.sort(answerList);
+        String[] answer = new String[answerList.size()];
+        answerList.toArray(answer);
+        
+        return answer;
+    }
+      static void combination(String order,String remain, int r) {
+          //탈출조건
+        if(r == 0) {
+            hashMap.put(order, hashMap.getOrDefault(order, 0) + 1);
+            return;
+        } 
+
+        for(int i=0; i<remain.length(); i++) {
+           combination(order+remain.charAt(i),remain.substring(i+1) ,r - 1);        
+        }
+    }
+
+}

@@ -1,0 +1,46 @@
+import java.util.*;
+class Solution {
+    public int[] solution(int N, int[] stages) {
+        int fail_total=0,count=stages.length;
+        boolean[] b_array = new boolean[stages.length];
+        int[] I_array = new int[N];
+        double[] array = new double[N];
+     for(int i=0;i<N;i++){
+        
+         int fail=0;
+        for(int j=0;j<stages.length;j++){
+            if(b_array[j])
+                continue;
+            if(stages[j]<=i+1){
+                b_array[j]=true;
+                fail++;
+            }
+            
+        }
+         fail_total=fail;
+         if(fail==0){
+             array[i]= 0;
+         }else{
+            array[i]= (double)fail/count;
+         }
+         count=count-fail;         
+     }
+        Map<Integer, Double> map = new HashMap<>();
+        for(int i=0;i<N;i++){
+            map.put( i+1,array[i]);
+           
+        }
+        int i=0;
+        List<Integer> listKeySet = new ArrayList<>(map.keySet());
+        Collections.sort(listKeySet, (value1, value2) -> (map.get(value2).compareTo(map.get(value1))));
+		for(Integer key : listKeySet) {
+			I_array[i]= key;
+            i++;
+		}
+	
+
+                
+       
+        return I_array;
+    }
+}

@@ -1,0 +1,21 @@
+import java.util.ArrayList;
+import java.util.Comparator;
+class Solution {
+    public int[] solution(int[] numbers) {
+        ArrayList<Integer> array = new ArrayList<>();
+        for(int i=0;i<numbers.length;i++){
+            for(int j=i+1;j<numbers.length;j++){
+                int hap =numbers[i]+numbers[j];
+                    if(array.contains(hap)){
+                        continue;   
+                    }else{
+                        array.add(hap);
+                    }
+            }
+        }
+        array.sort(Comparator.naturalOrder());
+        int[] answer = array.stream().mapToInt(Integer::intValue).toArray();
+      
+        return answer;
+    }
+}

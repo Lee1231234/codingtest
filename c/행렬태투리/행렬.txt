@@ -1,0 +1,72 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+
+// queries_row_len은 2차원 배열 queries의 행(세로) 길이입니다.
+// queries_col_len은 2차원 배열 queries의 열(가로) 길이입니다.
+// queries[i][j]는 queries의 i번째 행의 j번째 열에 저장된 값을 의미합니다.
+int* solution(int rows, int columns, int **queries, size_t queries_row_len, size_t queries_col_len) {
+     int* answer = (int*)malloc(sizeof(int)*queries_row_len);
+    // return 값은 malloc 등 동적 할당을 사용해주세요. 할당 길이는 상황에 맞게 변경해주세요.
+    //init
+    int array[rows][columns],max;
+    for(int i=0;i<rows;i++){
+        for(int j=0;j<columns;j++){
+            array[i][j]= j+i*columns+1;
+            max = j+i*columns+1;    
+         //   printf("%d ",array[i][j]);
+        }   
+       // puts("");
+    }
+   
+    
+    for(int i=0;i<queries_row_len;i++){
+        int ang = 1;
+        int x1,y1,x2,y2,min=max+1;
+        x1 =queries[i][0]-1;
+        y1 =queries[i][1]-1;
+        x2 =queries[i][2]-1;
+        y2 =queries[i][3]-1;
+     
+        int tmp2,tmp3;
+        ang=array[x1][y1];
+        min=ang;
+      
+         for(int i=y1+1;i<=y2;i++){
+            
+            tmp2= array[x1][i];
+            array[x1][i]=ang; 
+            ang=tmp2;
+            ang<min?min=tmp2:1;
+             
+        }
+         for(int i=x1+1;i<=x2;i++){
+           
+            tmp2= array[i][y2];
+            array[i][y2]=ang; 
+            ang=tmp2;
+            ang<min?min=tmp2:1;
+             
+        }
+         for(int i=y2-1;i>=y1;i--){
+        
+            tmp2= array[x2][i];
+            array[x2][i]=ang; 
+            ang=tmp2;
+            ang<min?min=tmp2:1;
+              
+        }
+         for(int i=x2-1;i>=x1;i--){
+          
+            tmp2= array[i][y1];
+            array[i][y1]=ang; 
+            ang=tmp2;
+            ang<min?min=tmp2:1;
+               
+        }
+        answer[i]=min;
+    }
+   
+  
+    return answer;
+}

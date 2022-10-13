@@ -1,0 +1,48 @@
+import java.util.*;
+class Solution {
+    public List<Integer> solution(String[] genres, int[] plays) {
+        HashMap<Integer,Integer> map1 = new HashMap<>();
+        HashMap<String,Integer> map2 = new HashMap<>();
+        for(int i=0;i<plays.length;i++){
+            map2.put(genres[i],map2.getOrDefault(genres[i],0)+plays[i]);
+            map1.put(plays[i],i);
+        }
+        List<String> keySetList = new ArrayList<>(map2.keySet());
+	
+	
+		List<Integer> list= new ArrayList<>();
+		Collections.sort(keySetList, (o1, o2) -> (map2.get(o2).compareTo(map2.get(o1))));
+		for(String key : keySetList) {
+            int first=-1,second=-1;
+            int first_idx=-1,second_idx=-1;
+            for(int i=0;i<plays.length;i++){
+               
+                if(genres[i].equals(key)){
+                    if(first<plays[i]){
+                        int tmp= first_idx;
+                        first_idx=i;
+                        first=plays[i];
+                        if(tmp!=-1&&second<plays[tmp]){
+                            second_idx=tmp;
+                            second=plays[tmp];
+                        }                             
+                    }else if(second<plays[i]){
+                        second_idx=i;
+                        second=plays[i];
+                    }
+                     
+                   
+                }
+                
+              
+            }
+             list.add(first_idx);
+                if(second_idx!=-1){
+                     list.add(second_idx);
+                }
+            
+		}
+        int[] answer = {};
+        return list;
+    }
+}

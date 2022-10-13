@@ -1,0 +1,22 @@
+import java.util.*;
+class Solution {
+    public int[] solution(String s) {
+       int[] list = new int[2];
+        int count=0, length=0;
+        while(true){
+            String b=s.replaceAll("1","");
+           
+            if(s.equals("1")){
+                break;
+            }
+            int length1 =b.length();
+            length += length1;
+            count++;
+            s = Integer.toBinaryString(s.length()-b.length()); 
+      //      System.out.println(length+" "+count+" "+s+" "+b);
+        }
+        list[0]=count;
+        list[1]=length;
+        return list;
+    }
+}

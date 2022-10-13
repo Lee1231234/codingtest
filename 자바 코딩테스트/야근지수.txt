@@ -1,0 +1,28 @@
+import java.util.*;
+class Solution {
+    public long solution(int n, int[] works) {
+        PriorityQueue<Integer> priorityQueue = new PriorityQueue<>(Collections.reverseOrder());
+        for(int work :works){
+            priorityQueue.add(work);
+        }
+        while(n>0){
+            n--;
+            int num=0;
+            if(priorityQueue.size()>0){
+                num =priorityQueue.poll();
+               
+            }
+            num--;
+            if(num>0)
+             priorityQueue.add(num);
+        }
+        long answer = 0;
+        System.out.println(priorityQueue.size());
+        while(priorityQueue.size()>0){
+            long num =priorityQueue.poll();
+            answer+=num*num;
+        }
+       
+        return answer;
+    }
+}

@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+int compare(const void *a, const void *b)   
+{
+    int num1 = *(int *)a;    
+    int num2 = *(int *)b;    
+    char num1_c[10];
+    char num2_c[10];
+    char tmp[10];
+    sprintf(num1_c, "%d", num1);
+     sprintf(num2_c, "%d", num2);
+    strcpy(tmp,num1_c);
+    strcat(num1_c,num2_c);
+    strcat(num2_c,tmp);
+  
+    if (atoi(num1_c) > atoi(num2_c))   
+        return -1;     
+    
+    if (atoi(num1_c) < atoi(num2_c))    
+        return 1;       
+    
+    return 0;    
+}
+
+// numbers_len은 배열 numbers의 길이입니다.
+char* solution(int numbers[], size_t numbers_len) {
+   
+    // return 값은 malloc 등 동적 할당을 사용해주세요. 할당 길이는 상황에 맞게 변경해주세요.
+
+    char* answer = (char*)malloc(numbers_len*4+1);
+    memset(answer, NULL, numbers_len * sizeof(char)+1);
+ 
+    qsort(numbers,numbers_len,sizeof(int),compare);
+   
+ 
+ 
+   
+   for(int i=0;i<numbers_len;i++){
+         char tmp[10];
+         sprintf(tmp, "%d",numbers[i]);
+         strcat(answer,tmp);
+   }
+    if(numbers[0]==0){
+      return "0";
+    }
+     return answer;
+}

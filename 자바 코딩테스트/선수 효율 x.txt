@@ -1,0 +1,21 @@
+class Solution {
+    public String solution(String[] participant, String[] completion) {
+        int[] array = new int [participant.length];
+        String answer = "";
+        for(int i=0;i<participant.length;i++){
+            for(int j=0;j<completion.length;j++){
+                if(participant[i].equals(completion[j])){
+                    completion[j] = "";
+                    array[i]= 1;
+                    break;
+                }
+            }
+            if(array[i]!=1){
+                answer=participant[i];
+                break;
+            }
+        }
+       
+        return answer;
+    }
+}

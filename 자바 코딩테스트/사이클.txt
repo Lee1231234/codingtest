@@ -1,0 +1,45 @@
+import java.util.*;
+class Solution {
+    static boolean[][][] visit;
+    static int[] r= {0,-1,0,1}; //좌 상 우 하
+    static int[] c= {1,0,-1,0}; 
+    
+    public int[] solution(String[] grid) {
+        ArrayList<Integer> list = new ArrayList<>(); 
+        visit = new boolean[grid.length][grid[0].length()][4];
+        for(int dr=0;dr<grid.length;dr++){
+          for(int dc=0;dc<grid[0].length();dc++){
+              for(int i=0;i<4;i++){
+                  if(!visit[dr][dc][i]){
+                      list.add(dfs(grid,dr,dc,i));
+                  }
+              }  
+          }
+        }
+      
+        int[] answer = list.stream().sorted().mapToInt(i->i).toArray();
+        return answer;
+    }
+    int dfs(String[]grid,int dr,int dc,int dir){
+        //종료조건
+        int count =0;
+        
+        while(!visit[dr][dc][dir]){
+           
+            visit[dr][dc][dir]=true;
+            count++;
+            if(grid[dr].charAt(dc)=='L'){
+                dir= dir==3?0:dir+1;
+            }else if(grid[dr].charAt(dc)=='R'){
+                
+                dir= dir==0?3:dir-1;
+            }
+            dr=(dr+r[dir]+grid.length)%grid.length;
+            dc=(dc+c[dir]+grid[0].length())%grid[0].length();
+          
+            
+        }
+        
+        return count;
+    }
+}

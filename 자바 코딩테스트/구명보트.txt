@@ -1,0 +1,25 @@
+import java.util.*;
+class Solution {
+    public int solution(int[] people, int limit) {
+       
+        Arrays.sort(people);
+         ArrayList<Integer> list = new ArrayList<>();
+        for(int i :people){
+            list.add(i);
+        }
+        int limit1= limit;
+        int answer = 0;
+        
+       while(!list.isEmpty()){
+           int tmp =list.remove(list.size()-1);
+           
+              if(list.size()!=0&&list.get(0)+tmp<=limit){
+                  list.remove(0);
+              }
+           answer++;
+           
+       }
+       
+        return answer;
+    }
+}

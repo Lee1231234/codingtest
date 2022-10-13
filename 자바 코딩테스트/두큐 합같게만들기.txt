@@ -1,0 +1,42 @@
+import java.util.*;
+class Solution {
+    public int solution(int[] queue1, int[] queue2) {
+        Queue <Integer> queue3 = new LinkedList<>();
+        Queue <Integer> queue4 = new LinkedList<>();
+        long q3_total =0,q4_total=0;
+        int count=0;
+        for(int i : queue1){
+            queue3.add(i);
+            q3_total+=(long)i;
+        }
+           
+        
+        for(int i : queue2){             
+            queue4.add(i);
+            q4_total+=(long)i;
+        }
+        
+        while(q3_total!=q4_total){
+            int tmp;
+            count++;
+            if(q3_total>q4_total){
+                tmp=queue3.poll();
+                queue4.add(tmp);
+                q3_total-=tmp;
+                q4_total+=tmp;
+            }else{
+                tmp=queue4.poll();
+                queue3.add(tmp);
+                q3_total+=tmp;
+                q4_total-=tmp;
+            }
+           
+            if(count>=300000){
+                return -1;
+            }
+        }
+       
+        return count;
+    }
+}
+

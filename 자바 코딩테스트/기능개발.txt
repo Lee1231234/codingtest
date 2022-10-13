@@ -1,0 +1,36 @@
+import java.util.LinkedList; //import
+import java.util.Queue; //import
+import java.util.ArrayList; //import
+
+class Solution {
+    public int[] solution(int[] progresses, int[] speeds) {
+        Queue<Integer> queue = new LinkedList<>();
+        Queue<Integer> queue2 = new LinkedList<>();
+        ArrayList<Integer> array = new ArrayList<Integer>();
+        for(int i=0;i<progresses.length;i++){
+            queue.add(progresses[i]);
+            queue2.add(speeds[i]);
+        }
+        int count =0,number=0;
+        while(queue.peek()!=null){
+            if(queue.peek()+queue2.peek()*count>=100){
+                
+                queue.poll();
+                queue2.poll();
+                number++;
+            }else{
+                if(number!=0){
+                    array.add(number);
+                 }
+                 number=0;
+                 count++;
+            }
+          
+        }
+         array.add(number);
+       
+       
+        return  array.stream().mapToInt(Integer::intValue).toArray();
+    }
+}
+//큐

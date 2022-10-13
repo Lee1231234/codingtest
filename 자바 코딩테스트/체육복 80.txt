@@ -1,0 +1,42 @@
+class Solution {
+    public int solution(int n, int[] lost, int[] reserve) {
+        boolean[] b_array = new boolean[n];
+        int count=0;
+        for(int i=0;i<n;i++){
+            b_array[i] =true;
+        }
+        for(int i=0;i<lost.length;i++){
+            b_array[lost[i]-1]= false;
+        }
+        for(int i=0;i<reserve.length;i++){
+           if(reserve[i]==1){
+               if(b_array[reserve[i]-1]==false){
+                   b_array[reserve[i]-1]=true;
+               }else
+                b_array[reserve[i]]=true;
+           }else if(reserve[i]==n){
+               if(b_array[reserve[i]-1]==false){
+                   b_array[reserve[i]-1]=true;
+               }else
+                b_array[reserve[i]-2]=true;
+           }else{
+                if(b_array[reserve[i]-1]==false){
+                    b_array[reserve[i]-1]=true;
+                }
+                else if(b_array[reserve[i]]==false){
+                   b_array[reserve[i]]=true;
+               }else if(b_array[reserve[i]-2]==false){
+                     b_array[reserve[i]-2]=true;
+                }
+               
+           }
+        }
+        
+         for(int i=0;i<n;i++){
+             if(b_array[i])
+                count++;
+        }
+      
+        return count;
+    }
+}

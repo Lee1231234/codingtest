@@ -1,0 +1,54 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+
+// id_list_len은 배열 id_list의 길이입니다.
+// report_len은 배열 report의 길이입니다.
+// 파라미터로 주어지는 문자열은 const로 주어집니다. 변경하려면 문자열을 복사해서 사용하세요.
+int* solution(const char* id_list[], size_t id_list_len, const char* report[], size_t report_len, int k) {
+    // return 값은 malloc 등 동적 할당을 사용해주세요. 할당 길이는 상황에 맞게 변경해주세요.
+    int* answer = (int*)malloc(id_list_len*sizeof(int));
+    char* reportarray[2][report_len];
+    int reportnum[id_list_len];
+    int tf=0;
+    memset(reportnum, 0, id_list_len*sizeof(reportnum[0]));
+    memset(answer, 0, id_list_len*sizeof(answer[0]));
+   
+    for(int i=0;i<report_len;i++){
+     reportarray[0][i] =  strtok(report[i]," ");
+     reportarray[1][i] =  strtok(NULL," ");
+     
+       
+    }
+   for(int i=0;i<report_len;i++){
+        for(int j=0;j<i;j++){
+          //  printf("%s %s %s %s\n",reportarray[0][i],reportarray[0][j],reportarray[1][i],reportarray[1][j]);
+           if(strcmp(reportarray[0][i],reportarray[0][j])==0&&strcmp(reportarray[1][i],reportarray[1][j])==0){
+               tf=1;
+               break;//중복막기
+           }    
+     }
+       for(int j=0;j<id_list_len;j++){
+           if(strcmp(id_list[j],reportarray[1][i])==0&&tf==0){
+                reportnum[j]++;//밸류
+            // printf("%d %d\n",j,reportnum[j]);
+           }             
+        } 
+       tf=0;
+   }//신고수 생성
+   
+    for(int i= 0;i<id_list_len;i++){
+       for(int j=0;j<report_len;j++){
+           if(strcmp(id_list[i],reportarray[0][j])==0){
+               for(int e=0;e<id_list_len;e++){
+                     if(strcmp(reportarray[1][j],id_list[e])==0){
+                         if(reportnum[e]>=k){
+                            answer[i]++;
+                         }
+                     }
+                   }
+               }
+       }
+    }
+    return answer;
+}

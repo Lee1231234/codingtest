@@ -1,0 +1,44 @@
+class Solution {
+    public String solution(int n, int t, int m, int p) {
+        StringBuilder sb =new StringBuilder();
+        int count =0,count_r=0;
+        String tmp="";
+     
+        while(count_r!=t){
+            if(sb.length()<m){
+                sb.append(maken(count,n));
+                count++;
+            }else{
+                tmp+=sb.charAt(p-1);
+                sb=sb.delete(0, m);
+              
+                count_r++;
+            }
+        }
+        String answer = "";
+        return tmp;
+    }
+    String maken(int count,int n){
+         StringBuilder sb =new StringBuilder();
+        if(count==0){
+            return "0";
+        }
+        int tmp= count;
+        while(tmp>0){
+            int tmp2=tmp%n;
+            tmp=tmp/n;
+            
+            if(tmp2>=10){
+                char c ='A';
+                c += (char)(tmp2-10);
+                sb.append(Character.toString(c));
+                
+            }else{
+                sb.append(Integer.toString(tmp2));
+            }
+        }
+      
+      
+        return sb.reverse().toString();
+    }
+}

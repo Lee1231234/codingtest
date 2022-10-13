@@ -1,0 +1,39 @@
+import java.util.*;
+class Solution {
+    static int zero=0,one=0;
+    public int[] solution(int[][] arr) {
+        int n = 0;
+        int size= arr.length;
+        bfs(arr,0,0,size);
+        int[] answer = {zero,one};
+      
+        return answer;
+    }
+    void bfs(int[][]arr,int startx,int starty,int size){
+       
+         HashSet<Integer> set = new HashSet<>();
+         
+        for(int i=starty;i<size+starty;i++){
+            for(int j=startx;j<size+startx;j++){
+                set.add(arr[i][j]);
+            }
+        }
+        if(set.size()>1){
+            //4개로 쪼개서 넘기기
+             bfs(arr,startx,starty,size/2);
+             bfs(arr,startx+size/2,starty,size/2);
+             bfs(arr,startx,starty+size/2,size/2);
+             bfs(arr,startx+size/2,starty+size/2,size/2);
+            
+        }else{
+            
+            if(set.contains(0)){
+                zero++;
+            }else{
+                one++;
+            }
+            return;
+        }
+    }
+}
+//queue? 4개 만들어서 

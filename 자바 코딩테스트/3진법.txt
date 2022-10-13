@@ -1,0 +1,18 @@
+import java.util.ArrayList;
+class Solution {
+    public int solution(int n) {
+        ArrayList<Integer> arrays = new ArrayList<Integer>();
+        while(n>0){
+            arrays.add(n%3);
+            n/=3;
+        }
+        int i = 1,value=0;
+        for(Integer num : arrays){
+            value+=(num*Math.pow(3,arrays.size()-i));
+            System.out.println(Math.pow((int)num,arrays.size()-i));
+            i++;
+        }
+        int answer = 0;
+        return value;
+    }
+}

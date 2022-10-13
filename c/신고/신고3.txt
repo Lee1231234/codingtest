@@ -1,0 +1,53 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include<string.h>
+
+// id_list_len은 배열 id_list의 길이입니다.
+// report_len은 배열 report의 길이입니다.
+// 파라미터로 주어지는 문자열은 const로 주어집니다. 변경하려면 문자열을 복사해서 사용하세요.
+int* solution(const char* id_list[], size_t id_list_len, const char* report[], size_t report_len, int k) {
+    // return 값은 malloc 등 동적 할당을 사용해주세요. 할당 길이는 상황에 맞게 변경해주세요.
+    int* answer = (int*)malloc(id_list_len*sizeof(int));
+    int array[id_list_len][id_list_len];//신고자 피신고자
+    int array2[id_list_len];//신고당한횟수
+    for(int i=0;i<id_list_len;i++){
+        memset(array[i],0,sizeof(int)*id_list_len);
+      
+    }
+    memset(array2,0,sizeof(int)*id_list_len);
+    memset(answer,0,sizeof(int)*id_list_len);
+    for(int i=0;i<report_len;i++){//신고자와 피신고자 생성
+        char* name;//report 이름 자르기
+        int tmp1=0,tmp2=0;
+        name=strtok(report[i]," ");
+    
+        for(int j=0;j<id_list_len;j++){
+            if(strcmp(name,id_list[j])==0){
+                tmp1= j;
+            }
+        }
+        name=strtok(NULL," ");
+        for(int j=0;j<id_list_len;j++){
+            if(strcmp(name,id_list[j])==0){
+                tmp2= j;
+            }
+        }
+        array[tmp1][tmp2]++; 
+    }
+    for(int i=0;i<id_list_len;i++){//신고횟수
+        for(int j=0;j<id_list_len;j++){
+            if(array[i][j]>0){
+                array2[j]++;
+            }
+        }
+    }
+    for(int i=0;i<id_list_len;i++){
+        for(int j=0;j<id_list_len;j++){
+            if(array2[j]>=k&&array[i][j]>0){
+               answer[i]++;
+            }
+        }
+    }
+    return answer;
+}

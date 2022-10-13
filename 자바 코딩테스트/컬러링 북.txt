@@ -1,0 +1,45 @@
+class Solution {
+    static int count=0;
+    static int m1,n1;
+    static int[] dr = {0,0,1,-1};
+    static int[] dc = {1,-1,0,0};
+    void travel(int r,int c,int[][] picture,boolean[][] visit){
+        if(visit[r][c]){
+            return;
+        }
+        visit[r][c] =true;
+        count++;
+        for(int i=0;i<4;i++){
+            int new_dr =r+dr[i];
+            int new_dc = c+dc[i];
+            if(new_dr<0||new_dr>=m1||new_dc<0||new_dc>=n1){
+                continue;
+            }
+            if(!visit[new_dr][new_dc]&&picture[r][c]==picture[new_dr][new_dc]){
+                travel(new_dr,new_dc,picture,visit);
+            }
+        }
+        
+    }
+    public int[] solution(int m, int n, int[][] picture) {
+        boolean[][] visit = new boolean[picture.length][picture[0].length];
+        m1=m;
+        n1=n;
+        int numberOfArea = 0;
+        int maxSizeOfOneArea = 0;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(picture[i][j]!=0&&!visit[i][j]){
+                    numberOfArea++;
+                    travel(i,j,picture,visit);
+                    }
+                if(count>maxSizeOfOneArea) maxSizeOfOneArea= count;
+                count= 0;
+            }
+        }
+        int[] answer = new int[2];
+        answer[0] = numberOfArea;
+        answer[1] = maxSizeOfOneArea;
+        return answer;
+    }
+}

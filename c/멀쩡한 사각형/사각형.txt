@@ -1,0 +1,26 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+
+long long solution(int w, int h) {
+    long answer = 1;
+    long size =(long)w*h;
+    long big,small;
+  
+    w>h? (big = w,small =h) : (big = h,small =w);
+    while(small>0){
+        int tmp =big % small;
+        big= small;
+        small = tmp;
+    }
+ 
+    if(w==h){
+       answer=size-w;
+    }else{
+        answer=size-(w+h-big);  
+    }
+   
+    
+    
+    return answer;
+}

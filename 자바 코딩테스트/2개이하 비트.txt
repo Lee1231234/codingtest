@@ -1,0 +1,19 @@
+class Solution {
+    public long[] solution(long[] numbers) {
+        int i=0;
+        long[] answer = new long[numbers.length];
+        for(long number:numbers){
+            answer[i] = xnor(number);
+            i++;         
+        }
+        return answer;
+    }
+    
+    long xnor(long a) {
+        long b= a+1;
+        b+= (a^b)>>2;
+       
+
+        return b;
+    }
+}

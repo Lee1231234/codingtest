@@ -1,0 +1,31 @@
+import java.util.*;
+class Solution {
+
+    public int[] solution(String[] id_list, String[] report, int k) {
+        int[] answer = new int[id_list.length];
+        HashMap<String, Set<String>> map = new HashMap<>();
+     
+        for(String name : report){
+           String[] name_a =  name.split(" ");
+            Set<String> set = map.getOrDefault(name_a[1], new HashSet<>());
+            set.add(name_a[0]);
+            map.put(name_a[1], set);
+                  
+        }
+        for(Map.Entry<String, Set<String>> entry : map.entrySet()){
+            if(entry.getValue().size()>=k){
+                for(int i=0;i<id_list.length;i++){
+                    for(String name_s : entry.getValue()){
+                        if(name_s.equals(id_list[i])){
+                            answer[i]++;
+                        }
+                    }
+                }
+              
+            }
+        }
+       
+     
+        return answer;
+    }
+}

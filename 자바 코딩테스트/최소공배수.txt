@@ -1,0 +1,20 @@
+class Solution {
+    public int solution(int[] arr) {
+        int total = arr[0];
+        for(int i=1;i<arr.length;i++){
+           
+            int g= gcd(arr[i],total);
+            total = arr[i]*total/g;
+        }
+        int answer = 0;
+        return total;
+    }
+    public int gcd(int a, int b){
+        while(b!=0){
+            int r = a%b;
+            a= b;
+            b= r;
+        }
+	    return a;
+    }
+}

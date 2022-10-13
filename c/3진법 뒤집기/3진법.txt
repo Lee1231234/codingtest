@@ -1,0 +1,26 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include <math.h>
+int solution(int n) {
+    int result=n;
+    int answer = 0;
+    int count=0,value,another[17];
+    while(result){
+      value = result/3;
+      another[count] = result%3;
+      count++;
+      result= value;
+    }
+   
+    for(int i=0;i<count/2;i++){
+      int temp=another[i];
+      another[i]=another[count-i-1];
+      another[count-i-1]=temp;        
+    }
+    for(int i=0;i<count;i++){      
+            answer+=another[i]*pow(3,i);       
+    }
+   
+    return answer;
+}

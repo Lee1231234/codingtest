@@ -1,0 +1,23 @@
+import java.util.*;
+class Solution {
+    static int answer = -1;
+    public int solution(int k, int[][] dungeons) {
+        boolean[]visit=new boolean[dungeons.length];
+       dfs(dungeons,0,visit,k);
+        
+        return answer;
+    }
+    void dfs(int[][] d,int depth,boolean[] visit,int k){
+      
+        
+     
+        for(int i=0;i<d.length;i++){
+            if (!visit[i] && d[i][0] <= k) {           
+                visit[i]=true;                                                 
+                dfs(d,depth+1,visit,k-d[i][1]);
+                visit[i]=false;
+            }
+        }
+        answer= Math.max(answer,depth);
+    }
+}

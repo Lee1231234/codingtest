@@ -1,0 +1,24 @@
+
+import java.util.*;
+import java.io.*;
+class Solution {
+    public long solution(long n) {
+        long[] array = new long[(int)(Math.log10(n)+1)];
+        String[] array2 = new String[array.length];
+        int i =0;    
+         while(array.length > i){
+            array[i]= n % 10;
+            array2[i]= Long.toString(array[i]);
+            n = n / 10;
+             
+            i++;
+            
+        }
+       
+       Arrays.sort(array2, Collections.reverseOrder());
+      String a= String.join("",array2);
+        
+        long answer = Long.parseLong(a);
+        return answer;
+    }
+}

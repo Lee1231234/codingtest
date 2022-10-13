@@ -1,0 +1,22 @@
+class Solution {
+    public long solution(int n) {
+        long first =0;
+        long seconde =1;
+        long total= 0;
+        
+        for(int i=0;i<n-2;i++){
+            total = seconde+first;
+            first = seconde%1234567L;
+            seconde = total%1234567L;
+           
+        }
+        
+        long answer = (first+seconde)%1234567L;
+        if( n==1){
+            return 0;
+        }else if(n==2){
+            return 1;
+        }
+        return answer;
+    }
+}

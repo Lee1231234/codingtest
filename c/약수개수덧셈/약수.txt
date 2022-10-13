@@ -1,0 +1,24 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+int fun(int left){
+    int count=0;
+    for(int i=1;i<=left;i++){
+        if(left%i==0){
+            count++;
+        }
+    }
+    printf("%d %d\n",left,count);
+    if(count%2==0){
+        return left;
+    }else{
+        return left*-1;
+    }
+}
+int solution(int left, int right) {
+    int answer = 0;
+    for(int i=left;i<=right;i++){
+        answer+=fun(i);
+    }
+    return answer;
+}

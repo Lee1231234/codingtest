@@ -1,0 +1,35 @@
+import java.util.*;
+class Solution {
+    public String[] solution(String[] record) {
+        ArrayList<String> List = new ArrayList<>();
+        ArrayList<String> List2 = new ArrayList<>();
+        HashMap<String,String> map = new HashMap<>();
+        for(String tokens:record){           
+            String[] token = tokens.split(" ");
+            if(token[0].equals("Enter")){               
+                map.put(token[1],token[2]);                
+                List.add(token[0] +" "+token[1]);                
+                            
+            }else if(token[0].equals("Leave")){
+                List.add(token[0] +" "+token[1]);                  
+            }else if(token[0].equals("Change")){
+                map.put(token[1],token[2]);
+            }
+                
+        }
+        for(String i : List){
+            String[] token = i.split(" ");
+            if(token[0].equals("Enter")){
+                List2.add(map.get(token[1])+"님이 들어왔습니다.");
+            }else if(token[0].equals("Leave")){
+                 List2.add(map.get(token[1])+"님이 나갔습니다.");
+            }
+        }
+      
+                         
+                
+        String[] answer =  List2.toArray(new String[List2.size()]);
+
+        return answer;
+    }
+}

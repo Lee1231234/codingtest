@@ -1,0 +1,42 @@
+import java.util.*;
+class Solution {
+    public int[] solution(String[] gems) {
+        HashSet<String> set = new HashSet<>();
+        HashMap<String,Integer> map = new HashMap<>();
+        for(String gem : gems){
+            set.add(gem);
+        }
+        int distance = Integer.MAX_VALUE;
+        int min = gems.length,first=0,second=0;
+        int right=0,left=0;
+        while(true){
+            if(set.size()==map.size()){
+                   map.put(gems[left], map.get(gems[left])-1);
+
+                    if (map.get(gems[left]) == 0) {
+                        map.remove(gems[left]);
+                    }
+                    left++;
+            }else if(right == min){
+                break;
+            }else{
+            
+                map.put(gems[right], map.getOrDefault(gems[right], 0) + 1);
+                
+                right++;
+            }
+            if(set.size()==map.size()){
+                if (right-left < distance){
+                        distance = right-left;
+                        first = left+1;
+                        second = right;
+                    }
+            }
+        }
+        
+        int[] answer = new int[2];
+        answer[0]=first;
+        answer[1]=second;
+        return answer;
+    }
+}

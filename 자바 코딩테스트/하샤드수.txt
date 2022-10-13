@@ -1,0 +1,23 @@
+import java.util.ArrayList;
+class Solution {
+    public boolean solution(int x) {
+        int length = 0,number=x;
+        boolean answer = true;
+        ArrayList<Integer> mod = new ArrayList<Integer>();
+        while(x>0){
+            mod.add(x%10);
+            x= x/10;
+        }        
+        for(Integer value: mod)
+            length+=value;
+        
+       
+        if(number%length==0){
+            answer = true;
+        }else{
+            answer = false;
+        }
+         
+        return answer;
+    }
+}

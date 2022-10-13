@@ -1,0 +1,21 @@
+class Solution {
+    static long a=0;
+    public long solution(int n) {
+        
+        int first=0,second=1,total=0;
+        for(int i=0;i<n-1;i++){
+            total= first+second;
+            first= second%1234567;
+            second= total%1234567;
+           // System.out.println(first+" "+second);
+        }
+        a=first+second;
+        if(n==0){
+            return 0;
+        }else if(n==1){
+            return 1;
+        }
+        return a%1234567;
+    }
+  
+}

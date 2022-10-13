@@ -1,0 +1,37 @@
+import java.util.*;
+class Solution {
+    public int[] solution(String[] operations) {
+        int[] answer = new int[2];
+        PriorityQueue<Integer> priorityQueueLowest = new PriorityQueue<>();
+        PriorityQueue<Integer> priorityQueueHighest = new PriorityQueue<>(Collections.reverseOrder());
+        for(String operation1:operations){
+            String[] operation =operation1.split(" ");
+            if(operation[0].equals("I")){
+                priorityQueueLowest.add(Integer.parseInt(operation[1]));
+                priorityQueueHighest.add(Integer.parseInt(operation[1]));
+            }else{
+                
+                if(operation[1].equals("1")){
+                    if(priorityQueueHighest.size()>0){
+                        int num = priorityQueueHighest.poll();
+                        
+                        boolean a =priorityQueueLowest.remove(num);
+                         
+                    }
+                }else{
+                     if(priorityQueueLowest.size()>0){
+                        int num = priorityQueueLowest.poll();
+                       
+                         priorityQueueHighest.remove(num);
+                    }
+                }
+            }
+        }
+        if(priorityQueueHighest.size()>0){
+            answer[0]=priorityQueueHighest.poll();
+            answer[1]=priorityQueueLowest.poll();
+        }
+        
+        return answer;
+    }
+}

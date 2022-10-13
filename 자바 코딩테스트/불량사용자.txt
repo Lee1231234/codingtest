@@ -1,0 +1,49 @@
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+class Solution {
+    HashSet<HashSet<String>> result;
+    ArrayList<ArrayList<String>> list= new ArrayList<>();
+    public int solution(String[] user_id, String[] banned_id) {
+        result = new HashSet<HashSet<String>>();
+        for(int i=0;i<banned_id.length;i++){
+            banned_id[i] = banned_id[i].replaceAll("\\*",".");
+            ArrayList<String> list2= new ArrayList<>();
+            for(String user : user_id){
+                 boolean user_check = Pattern.matches(banned_id[i], user);
+                if(user_check){
+                    list2.add(user);
+                }
+            }
+          
+                list.add(list2);
+        }
+   
+       
+        dfs(new HashSet<String>(), 0);
+       
+        return result.size();
+    }
+  
+    
+    
+    void dfs(HashSet<String> add, int depth) {
+        if (depth == list.size()) {
+     
+            
+          result.add(new HashSet<>(add));
+          return;
+        }
+ 
+      
+        for (String userId : list.get(depth)) {
+         
+          if (!add.contains(userId)) {
+            add.add(userId);
+            dfs(add, depth + 1);
+            add.remove(userId);
+          }
+        }
+    }
+}

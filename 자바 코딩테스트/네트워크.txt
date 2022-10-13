@@ -1,0 +1,23 @@
+class Solution {
+    static int answer = 0;
+    public int solution(int n, int[][] computers) {
+        boolean[] visit = new boolean[n];
+      
+        for(int i=0;i<n;i++){
+            if(visit[i]!=true){
+                bfs(visit,computers,i);
+                answer++;
+            }
+        }
+        
+        return answer;
+    }
+    void bfs(boolean[] visit,int[][] computer,int count){
+       visit[count]=true;
+        
+        for(int i=0;i<computer.length;i++){
+            if(visit[i]==false&&computer[count][i]==1)                                
+                bfs(visit,computer,i);
+        }
+    }
+}

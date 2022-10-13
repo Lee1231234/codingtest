@@ -1,0 +1,29 @@
+import java.util.PriorityQueue;
+class Solution {
+    public int solution(int[] scoville, int K) {
+       PriorityQueue<Integer> heap = new PriorityQueue();
+       
+        int answer = 0;
+        for(int i : scoville){
+            heap.offer(i);
+        }
+        
+       while(heap.peek()<=K){
+            int a,b,result;
+            if (heap.size() == 1) 
+                return -1;
+            a=heap.poll();
+            b=heap.poll();
+            result = a+(b*2);
+            heap.add(result);
+            answer++;
+       }
+        
+        return answer;
+    }
+}
+//힙문제 정렬이 되어있다 
+// 부모노드 /2
+//자식노드 왼 *2 오 *2+1
+
+// k 이상 만들수없다 2번째로 맵지않은 음식의 값이 0 이면 -1

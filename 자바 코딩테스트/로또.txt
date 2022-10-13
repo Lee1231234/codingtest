@@ -1,0 +1,39 @@
+import java.util.HashSet;
+import java.util.*;
+class Solution {
+    public static int sum(int a){
+        switch(a){
+            case 6:
+                return 1;
+            case 5:
+                return 2;
+            case 4:
+                return 3;
+            case 3:
+                return 4;
+            case 2:
+                return 5;
+            default:
+                return 6;
+        }
+   }
+    public int[] solution(int[] lottos, int[] win_nums) {
+        
+        int a_count=0,r_count=0;
+        for(int number : lottos){
+            if(number==0){
+                a_count++;
+                continue;                
+            }
+            for(int number2 : win_nums){
+                if(number==number2)
+                    r_count++;
+            }
+                    
+        }
+      
+       int[] answer = {sum(a_count+r_count), sum(r_count)};
+        return answer;
+    }
+    
+}

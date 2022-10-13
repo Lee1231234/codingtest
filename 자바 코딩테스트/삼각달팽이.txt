@@ -1,0 +1,36 @@
+class Solution {
+    public int[] solution(int n) {
+        int[][] array = new int[n][n];
+        int x = -1; // x 좌표
+		int y = 0; // y 좌표
+		int num = 1; // 달팽이 채우기 값
+		
+		for(int i = 0; i < n; i++) {
+			for(int j = i; j < n; j++) {
+				if(i % 3 == 0) { // 대각선 아래
+					x++;
+				}
+				else if(i % 3 == 1) { // 가로
+					y++;
+				}
+				else if(i % 3 == 2) { // 대각선 위
+					x--;
+					y--;
+				}
+				array[x][y] = num++;
+			}
+		}
+        int tmp=0;
+         int[] answer = new int[(n*(n+1))/2];
+      for(int i = 0; i < n; i++) {
+			for(int j = 0; j < n; j++) {
+                if(array[i][j]==0) break;
+                 answer[tmp++]= array[i][j];
+            }
+			
+		}
+       
+      
+        return answer;
+    }
+}

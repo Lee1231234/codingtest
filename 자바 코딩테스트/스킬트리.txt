@@ -1,0 +1,22 @@
+class Solution {
+    public int solution(String skill, String[] skill_trees) {
+         int answer = 0;
+        for(String skill_tree : skill_trees){
+            answer+=regex(skill_tree,skill);
+        }
+        
+        return answer;
+    }
+    int regex(String skill_tree,String skill){
+       
+        String a=skill_tree.replaceAll("[^"+skill+"]+",  "");
+        int num =  a.length();
+        for(int i=0;i<num;i++){
+             if(!(a.charAt(i)==skill.charAt(i))){
+                 return 0;
+             }
+        }
+        return 1;
+       
+    }
+}

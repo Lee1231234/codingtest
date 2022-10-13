@@ -1,0 +1,52 @@
+import java.util.*;
+class Solution {
+    public int solution(String str1, String str2) {
+        ArrayList<String> a = new ArrayList<>();
+        ArrayList<String> b = new ArrayList<>();
+        ArrayList<String> c = new ArrayList<>();
+        ArrayList<String> d = new ArrayList<>();
+        str1= str1.toUpperCase();
+        str2= str2.toUpperCase();
+        for(int i=0;i<str1.length()-1;i++){
+            if(str1.charAt(i)>='A'&&str1.charAt(i)<='Z'&&str1.charAt(i+1)>='A'&&str1.charAt(i+1)<='Z'){
+                StringBuilder sb = new StringBuilder();
+                sb.append(str1.charAt(i));
+                sb.append(str1.charAt(i+1));
+               
+                a.add(sb.toString());
+            }
+          
+        }
+        for(int i=0;i<str2.length()-1;i++){
+            if(str2.charAt(i)>='A'&&str2.charAt(i)<='Z'&&str2.charAt(i+1)>='A'&&str2.charAt(i+1)<='Z'){
+                StringBuilder sb = new StringBuilder();
+                sb.append(str2.charAt(i));
+                sb.append(str2.charAt(i+1));
+               
+                b.add(sb.toString());
+            }
+        }
+      
+         for(String i :a){
+            if(b.remove(i)){
+                c.add(i);
+            }
+            d.add(i);
+        }
+        for(String i:b){
+            d.add(i);
+        }
+        double num;
+        if(d.size()==0){
+            num=1;
+        }else{
+           num = (double)c.size()/(double)d.size();
+        }
+         int answer = 0;
+        num=num*65536;
+        answer = (int)num;
+
+        
+        return answer;
+    }
+}

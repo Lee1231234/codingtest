@@ -1,0 +1,66 @@
+import java.util.*;
+import java.util.stream.Collectors;
+class Solution {
+    static long max;
+    public long solution(String expression) {
+        StringTokenizer st = new StringTokenizer(expression, "+*-");
+        ArrayList<Long> numbers= new  ArrayList<>();
+        ArrayList<String> tokens= new  ArrayList<>();
+        
+    
+        for(String a : expression.split("")){
+         
+            if(a.equals("+")){
+                tokens.add(a);
+               
+            }else if(a.equals("*")){
+               tokens.add(a);
+            }else if(a.equals("-")){
+                tokens.add(a);
+            }
+        }
+        while(st.hasMoreTokens()){
+            numbers.add(Long.parseLong(st.nextToken()));    
+        }
+        fun(numbers,tokens,"*+-");
+        fun(numbers,tokens,"*-+");
+        fun(numbers,tokens,"-+*");
+        fun(numbers,tokens,"-*+");
+        fun(numbers,tokens,"+*-");
+        fun(numbers,tokens,"+-*");
+      
+        return max;
+    }
+    void fun(ArrayList<Long> numbers,ArrayList<String> tokens,String token){
+       List<Long> tempNum = numbers.stream().collect(Collectors.toList());
+       List<String> tempTok = tokens.stream().collect(Collectors.toList());
+     
+            for(int i=0;i<3;i++){
+                String a = Character.toString(token.charAt(i));
+                while(tempTok.indexOf(a)!=-1){
+                    int j = tempTok.indexOf(a);
+                     switch(tempTok.get(j)){
+                            case "*":                                
+                                long tmp = tempNum.remove(j)*tempNum.remove(j);
+                                tempTok.remove(j);
+                                tempNum.add(j,tmp); 
+                                break;
+                            case "-":
+                                tmp = tempNum.remove(j)-tempNum.remove(j);
+                                 tempTok.remove(j);
+                                tempNum.add(j,tmp);   
+                             
+                                break;
+                            case "+":
+                                tmp = tempNum.remove(j)+tempNum.remove(j);
+                                tempTok.remove(j);
+                                tempNum.add(j,tmp);      
+                                break;
+                        }
+                }
+            }
+        
+    
+        max=Math.max(max,Math.abs(tempNum.get(0)));
+    }
+}

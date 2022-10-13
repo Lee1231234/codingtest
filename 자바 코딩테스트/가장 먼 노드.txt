@@ -1,0 +1,48 @@
+import java.util.*;
+class Solution {
+    public int solution(int n, int[][] edge) {
+        int answer =0;
+        ArrayList<ArrayList<Integer>> adList = new ArrayList<>();
+        adList.add(new<Integer> ArrayList()); //dummy
+        
+        for(int i=0; i<n; i++) {
+            adList.add(new<Integer> ArrayList());
+        }
+         boolean[] visited = new boolean[n + 1];
+        for(int[] node :edge) {
+            int v1 = node[0];
+            int v2 = node[1];
+             
+           
+            adList.get(v1).add(v2);
+            adList.get(v2).add(v1);
+          
+        }
+        Queue<Integer> queue = new LinkedList<>();
+        queue.add(1);
+        visited[1] = true;
+
+        int cnt = 0;
+        while (queue.size() != 0) {
+            Queue<Integer> temp = new LinkedList<>();
+
+            while (!queue.isEmpty()) {
+                int cur = queue.poll();
+                for (int adj : adList.get(cur)) {
+                    if (!visited[adj]) {
+                        temp.add(adj);
+                        visited[adj] = true;
+                    }
+                }
+            }
+
+            if (temp.isEmpty()) break;
+            queue.addAll(temp);
+            cnt = temp.size();
+        }
+
+        return cnt;
+    
+    }
+    
+}

@@ -1,0 +1,26 @@
+
+class Solution {
+    public int solution(String s) {
+        int min =s.length();
+        for(int i=1;i<=s.length()/2;i++){
+            int count=1;
+            StringBuilder sb= new StringBuilder();
+            String token = s.substring(0,i);
+            for(int j=i;j<=s.length();j+=i){
+                String next = s.substring(j,i+j>s.length()?s.length():i+j);
+                
+                if(token.equals(next)){count++;}
+                else{
+                    sb.append((count!=1?count:"")+token);
+                    token = next;
+                    count = 1;
+                }
+            }
+            sb.append(token);
+            min=Math.min(min, sb.toString().length());
+        }
+        
+        int answer = 0;
+        return min;
+    }
+}

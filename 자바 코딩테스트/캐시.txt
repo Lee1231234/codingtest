@@ -1,0 +1,51 @@
+import java.util.*;
+class Solution {
+    public int solution(int cacheSize, String[] cities) {
+        ArrayList<String> list = new ArrayList<>();
+        int answer = 0;
+        for(String city: cities){
+            city=city.toUpperCase();
+         
+            boolean flag1=false;
+            boolean flag2=false;
+           if(cacheSize>list.size()){
+                for(int i=0;i<list.size();i++){
+                    if(city.equals(list.get(i))){
+                    answer++;
+                    list.remove(i);
+                    list.add(city);
+                    flag1=true;
+                    break;
+                    }
+                }
+               if(flag1){
+                   continue;
+               }else{
+                   answer+=5;
+                   list.add(city);
+                   continue;
+               }
+            }
+            for(int i=0;i<cacheSize;i++){
+                if(city.equals(list.get(i))){
+                    answer++;
+                    list.remove(i);
+                    list.add(city);
+                    flag2=true;
+                    break;
+                }
+            }
+              if(flag2){
+                   continue;
+               }else{
+                   answer+=5;
+                   
+                   list.add(city);
+                   list.remove(0);
+                   continue;
+               }
+        }
+       
+        return answer;
+    }
+}

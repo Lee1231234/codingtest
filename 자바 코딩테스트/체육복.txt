@@ -1,0 +1,34 @@
+import java.util.*;
+class Solution {
+    public int solution(int n, int[] lost, int[] reserve) {
+        int count=n-lost.length;     
+        Arrays.sort(lost);
+        Arrays.sort(reserve);
+        boolean[] array = new boolean[lost.length];
+        boolean[] array2 = new boolean[reserve.length];
+        
+        
+       for(int i=0;i<lost.length;i++){
+            for(int j=0;j<reserve.length;j++){
+                if(lost[i]==reserve[j]){
+                    array[i]=true;
+                    array2[j]=true;
+                    count++;
+                    continue;
+                }           
+        }
+       }
+        for(int i=0;i<lost.length;i++){
+            for(int j=0;j<reserve.length;j++){
+                if(array[i]!=true&&array2[j]!=true&&Math.abs(lost[i]-reserve[j])==1){
+                    count++;
+                    array[i]=true;
+                    array2[j]=true;
+                    break;
+                }
+            }
+        }
+          
+        return count;
+    }
+}

@@ -1,0 +1,23 @@
+import java.util.*;
+class Solution {
+    public int solution(int[] citations) {
+        int idx=0;
+       while(true){
+           int count=0;
+           for(int i=0;i<citations.length;i++){
+               if(citations[i]>idx){
+                   count++;
+               }
+           }
+           System.out.println(count);
+           if(count>idx){
+              idx++;
+           }else{
+              break;
+           }
+          
+       }
+      
+        return idx;
+    }
+}

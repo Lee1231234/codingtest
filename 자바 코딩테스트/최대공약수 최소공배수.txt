@@ -1,0 +1,27 @@
+class Solution {
+    public int[] solution(int n, int m) {
+        int gcd,lcm;
+        if(m>n){
+            int tmp;
+            tmp= n;
+            n= m;
+            m= tmp;
+        }
+        int number;
+        int a=n,b=m;
+        gcd=m;
+        do{
+           int tmp=a%b;
+            if(tmp==0){
+                break;
+            }           
+            a = b;
+            b=tmp;
+            gcd=tmp;
+        }while(true);
+       lcm= (n*m)/gcd;
+        
+        int[] answer = {gcd,lcm};
+        return answer;
+    }
+}

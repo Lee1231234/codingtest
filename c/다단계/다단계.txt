@@ -1,0 +1,46 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+  int result[100000];
+    
+   
+// enroll_len은 배열 enroll의 길이입니다.
+// referral_len은 배열 referral의 길이입니다.
+// seller_len은 배열 seller의 길이입니다.
+// amount_len은 배열 amount의 길이입니다.
+// 파라미터로 주어지는 문자열은 const로 주어집니다. 변경하려면 문자열을 복사해서 사용하세요.
+void fun(int num,char* enroll[],char* referral[],size_t len,int money){
+//    printf("%d %d %d %d %d %d %d %d %d \n",money,result[0],result[1],result[2],result[3],result[4],result[5],result[6],result[7]);
+   for(int i=0;i<len;i++){
+       if(strcmp(enroll[i],referral[num])==0){
+           result[i]+=money-(money/10);
+           money*=0.1;          
+           if(referral[i]!="-"&&money!=0)
+             fun(i,enroll,referral,len,money);
+           break;
+       }
+   }
+}
+int* solution(const char* enroll[], size_t enroll_len, const char* referral[], size_t referral_len, const char* seller[], size_t seller_len, int amount[], size_t amount_len) {
+    // return 값은 malloc 등 동적 할당을 사용해주세요. 할당 길이는 상황에 맞게 변경해주세요.
+  
+     for(int i=0;i<enroll_len;i++)
+        result[i]=0;
+    for(int i=0;i<seller_len;i++){
+        int left=0;
+        for(int j=0;j<enroll_len;j++){
+            if(strcmp(seller[i],enroll[j])==0){
+                result[j]+=(amount[i]*100)*0.9;
+                left=(amount[i]*100)*0.1;
+                if(referral[j]!="-"&&left!=0)
+                    fun(j,enroll,referral,referral_len,left);               
+                break;
+            }
+        }
+    }   
+    int* answer = (int*)malloc(sizeof(int)*enroll_len);
+    for(int i=0;i<enroll_len;i++){
+        answer[i]=result[i];      
+    }
+    return answer;
+}

@@ -1,0 +1,23 @@
+class Solution {
+    public int solution(int[][] triangle) {
+        int[][]  check = new int[triangle.length][triangle[triangle.length-1].length];
+        for(int i=0;i<triangle.length;i++){
+            for(int j=0;j<=i;j++){
+                if(i==0){
+                    check[i][j] =triangle[i][j];
+                }else if(j==0){
+                     check[i][j] =check[i-1][j]+triangle[i][j];
+                }else{
+                    check[i][j] =Math.max(check[i-1][j-1]+triangle[i][j],check[i-1][j]+triangle[i][j]);
+                }
+            }
+        }
+       
+         int answer = 0;
+         for(int i=0;i<check[check.length-1].length;i++){
+            answer =Math.max(check[check.length-1][i],answer);
+       } 
+       
+        return answer;
+    }
+}

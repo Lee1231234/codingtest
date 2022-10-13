@@ -1,0 +1,33 @@
+class Solution {
+    static int answer = 0;
+    static int[] array;
+    public int solution(int n) {
+        array = new int[n];
+        dfs(0,n);
+       
+        return answer;
+    }
+    void dfs(int depth,int n){
+        if(depth==n){
+            answer++;
+            return;
+        }
+        for(int i=0;i<n;i++){
+            array[depth]=i;
+            if(possible(depth)) dfs(depth+1,n);
+        }
+    }
+    boolean possible(int depth){
+       for (int i = 0; i < depth; i++) {
+         
+            if (array[depth] == array[i]) {
+                return false;
+            }
+          
+            else if (Math.abs(depth - i) == Math.abs(array[depth] - array[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
