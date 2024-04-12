@@ -1,0 +1,25 @@
+import java.util.*;
+class Solution {
+    public int solution(int[] a) {
+        HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+        int answer = -1;
+        for(int i=0;i<a.length;i++){
+            map.put(a[i],map.getOrDefault(a[i], 0)+1);
+        }
+
+        for(int key : map.keySet()){
+            if(map.get(key)<answer) continue;
+            int count = 0;
+           
+            for(int i=0;i<a.length-1;i++){
+                if(key != a[i] && key != a[i+1]) continue;
+                if(a[i] == a[i+1]) continue;    
+                count++;
+                i++; //이미 묶은 수열을 다른것과 겹치지않게
+            }
+            answer = Math.max(answer,count);
+        }
+       
+        return answer * 2;
+    }
+}
