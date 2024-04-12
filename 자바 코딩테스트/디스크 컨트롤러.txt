@@ -1,0 +1,29 @@
+import java.util.*;
+class Solution {
+    public int solution(int[][] jobs) {
+        Arrays.sort(jobs,(o1,o2)->o1[0]-o2[0]);
+              
+        PriorityQueue<int[]> queue = new PriorityQueue<>((o1,o2)->o1[1]-o2[1]);
+        
+        int answer = 0;
+        int count=0,time=0;
+        while(!queue.isEmpty()||count<jobs.length){
+            while(count<jobs.length&&jobs[count][0]<=time){
+               
+                queue.add(jobs[count++]);
+            }
+                
+            if(queue.isEmpty()){
+                time= jobs[count][0];
+               
+            }else{
+                int[] tmp = queue.poll();              
+                time += tmp[1];
+                answer += time-tmp[0];
+            }                    
+        }
+         
+        
+        return answer/jobs.length;
+    }
+}//SJF 스케쥴링

@@ -1,0 +1,66 @@
+import java.util.*;
+class Solution {
+    public String solution(int n, int k, String[] cmd) {
+        Stack<Node> stack = new Stack();
+        Node root= new Node(-1);
+        Node cur= root;
+        for(int i=0;i<n;i++){
+            Node node = new Node(i);
+            cur.next=node;
+            node.prev=cur;
+            cur= node;
+        }
+        cur.next =new Node(-1);
+        cur =root.next;
+        for(int i=0;i<k;i++){
+            cur= cur.next;
+        }
+        for(String s:cmd){
+            String[] tmp = s.split(" ");
+             switch(tmp[0]){
+                case "D":
+                    int num =Integer.parseInt(tmp[1]);
+                    while(num-->0){
+                        cur=cur.next;
+                    }
+                    break;
+                case "U":
+                     num =Integer.parseInt(tmp[1]);
+                    while(num-->0){
+                        cur=cur.prev;
+                    }
+                    break;
+                case "C":
+                    stack.add(cur);
+                    cur.prev.next=cur.next;
+                    cur.next.prev=cur.prev;                 
+                    cur=cur.next.idx==-1?cur.prev:cur.next;
+                    break;
+                case "Z":
+                     Node tmp1 =stack.pop();
+                     tmp1.prev.next=tmp1;
+                     tmp1.next.prev=tmp1;
+                  
+            }
+        }
+     
+        StringBuilder sb = new StringBuilder();
+        for(int i=0;i<n;i++){
+            sb.append("O");
+        }
+        while(!stack.isEmpty()){
+            sb.setCharAt(stack.pop().idx,'X');
+        }
+        
+        return sb.toString();
+       
+       
+    }
+    public class Node{
+        Node prev,next;
+        int idx;
+        public Node(int i){
+            idx=i;
+        }
+    }
+}

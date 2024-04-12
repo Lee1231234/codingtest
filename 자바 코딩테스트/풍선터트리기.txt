@@ -1,0 +1,24 @@
+class Solution {
+    public int solution(int[] a) {
+        int left=0,right=a.length-1;
+        int leftMin= a[left],rightMin=a[right];
+        int answer = 0;
+        while(left<=right){     
+            if(a[left]>a[right]){
+                if(a[left]<=leftMin){
+                    answer++;
+                    leftMin= a[left];
+                }
+                left++;
+            }else{
+                 if(a[right]<=rightMin){
+                    answer++;
+                    rightMin= a[right];
+                }
+                right--;
+            }
+        }
+       
+        return answer;
+    }
+}

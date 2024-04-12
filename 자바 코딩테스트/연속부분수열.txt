@@ -1,0 +1,37 @@
+import java.util.*;
+class Solution {
+    public int solution(int[] elements) {
+        int length=elements.length;//수열의 길이
+        HashSet<Integer> set = new HashSet<>();
+        ArrayList<Integer> list = new ArrayList<>(); 
+        for(int element : elements){
+            list.add(element);
+        }
+        list.addAll(list);
+      
+        int start=1;
+        // while(start<=length){
+        //     for(int i=0;i<length;i++){
+        //         int result=0;
+        //         for(int j=0;j<start;j++){
+        //             result+=list.get(i+j);
+        //         }
+        //         set.add(result);
+        //     }
+        //     start++;
+        // }
+         
+        for(int i=0;i<length;i++){
+            int result=0;
+            for(int j=0;j<length;j++){
+                result+=list.get(i+j);
+                set.add(result);
+            }
+
+        }
+      
+        
+       
+        return set.size();
+    }
+}

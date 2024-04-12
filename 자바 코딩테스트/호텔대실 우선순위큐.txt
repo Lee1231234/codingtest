@@ -1,0 +1,30 @@
+import java.util.*;
+class Solution {
+    public int solution(String[][] book_time) {
+        PriorityQueue<Integer> priorityQueue = new PriorityQueue<>();
+        int[][] time = new int[book_time.length][2];
+        int answer = 0;
+        
+        for(int i=0;i<book_time.length;i++){
+            time[i][0]=intTime(book_time[i][0]);
+            time[i][1]=intTime(book_time[i][1])+10;
+        }
+        
+        Arrays.sort(time,(o1,o2)->{return o1[0]-o2[0];});
+             
+        for(int i=0;i<book_time.length;i++){
+            while(!priorityQueue.isEmpty()&&priorityQueue.peek()<=time[i][0]){
+                priorityQueue.poll();
+            }
+            priorityQueue.add(time[i][1]);
+            answer = Math.max(answer,priorityQueue.size());
+            
+        }
+        
+        return answer;
+    }
+    int intTime(String times){
+        String[] time = times.split(":");
+        return Integer.parseInt(time[0])*60+Integer.parseInt(time[1]);
+    }
+}

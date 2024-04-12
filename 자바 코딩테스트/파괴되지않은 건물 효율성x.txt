@@ -1,0 +1,24 @@
+class Solution {
+    public int solution(int[][] board, int[][] skill) {
+        for(int[] array:skill){
+            int x1=array[1],x2=array[3],y1=array[2],y2=array[4];
+            for(int i=x1;x2>=i;i++){
+                for(int j=y1;y2>=j;j++){
+                    if(array[0]==1){
+                       board[i][j]-= array[5]; 
+                    }else{
+                       board[i][j]+= array[5];  
+                    }
+                }
+            }
+        }
+        int answer = 0;
+        for(int []array:board){
+            for(int i:array){
+                if(i>0) answer++;
+            }
+        }
+    
+        return answer;
+    }
+}

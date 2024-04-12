@@ -1,0 +1,72 @@
+import java.util.*;
+class Solution {
+
+	static ArrayList<ArrayList<Node>> graph;
+
+	static class Node {
+		int idx, cost;
+
+		Node(int idx, int cost) {
+			this.idx = idx;
+			this.cost = cost;
+		}
+	}
+    public int solution(int n, int s, int a, int b, int[][] fares) {
+       
+		
+		graph = new ArrayList<ArrayList<Node>>();
+		for (int i = 0; i < n ; i++) {
+			graph.add(new ArrayList<Node>());
+		}
+		for (int i = 0; i < fares.length; i++) {
+			
+			int start = fares[i][0]-1;
+			int e = fares[i][1]-1;
+			int c = fares[i][2];		
+			graph.get(start).add(new Node(e, c));
+            graph.get(e).add(new Node(start, c));
+		}
+
+		int[] dist = new int[n]; 
+		for (int i = 0; i < n; i++) {
+			dist[i] = 2000000;
+		}
+        int[] together =  dist.clone();
+        int min = 2000000;
+		together=dijkstra(together,false,0,s-1);
+        for(int i=0;i<n;i++){
+            int[] aloneA =  dist.clone();
+            int[] aloneB =  dist.clone();
+            aloneA=dijkstra(aloneA,true,a-1,i);
+            aloneB=dijkstra(aloneB,true,b-1,i);                  
+            min = Math.min(min,together[i]+aloneA[a-1]+aloneB[b-1]);
+        }
+       
+        
+        return min;
+    }
+    public int[] dijkstra (int[] dist,boolean check,int end,int start){
+		PriorityQueue<Node> q = new PriorityQueue<Node>((o1, o2) -> Integer.compare(o1.cost, o2.cost));
+		q.offer(new Node(start, 0));
+		dist[start] = 0;
+		while (!q.isEmpty()) {
+			Node curNode = q.poll();
+
+			if (check&&curNode.idx == end) {
+				return dist;			
+			}
+
+			if (dist[curNode.idx] < curNode.cost) {
+				continue;
+			}
+			for (int i = 0; i < graph.get(curNode.idx).size(); i++) {
+				Node nxtNode = graph.get(curNode.idx).get(i);
+				if (dist[nxtNode.idx] > curNode.cost + nxtNode.cost) {
+					dist[nxtNode.idx] = curNode.cost + nxtNode.cost;				
+					q.offer(new Node(nxtNode.idx, dist[nxtNode.idx]));
+				}
+			}
+		}		
+        return dist;
+    }
+}

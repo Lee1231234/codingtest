@@ -1,0 +1,42 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int distance, int[] rocks, int n) {
+        int answer = 0;
+        Arrays.sort(rocks);
+        int[] width = new int [rocks.length+1];
+        
+        //각 사이 거리구하기
+        width[0]=rocks[0];
+        width[width.length-1]=distance-rocks[rocks.length-1];
+        for(int i=1;i<rocks.length;i++){
+            width[i]=  rocks[i] - rocks[i-1];
+        }
+        //이분문제 
+        int min =1;
+        int max =distance;
+        while(min<=max){
+            int remove=0;
+            int sum =0;
+            int mid = (min+max)/2;
+            for(int i=0;i<width.length;i++){
+                sum+=width[i];
+                if(sum<mid){
+                    remove++;
+                    continue;
+                }
+                sum=0;
+            }
+            if(remove>n){
+                max = mid-1;
+                continue;
+            }
+            min = mid+1;
+            answer= Math.max(answer,mid);
+        }
+        
+        
+       
+        return answer;
+    }
+}//이분문제 바위를 지울때마다 정렬해서 한다면 시간내에 해결하지못함.

@@ -1,0 +1,40 @@
+import java.util.*;
+class Solution {
+    public int solution(int n, int[][] wires) {
+        int answer = n+1;
+        int[][] map = new int[n][n];
+        for(int i=0;i<wires.length;i++){
+            map[wires[i][0]-1][wires[i][1]-1]=1;
+            map[wires[i][1]-1][wires[i][0]-1]=1;
+        }
+        for(int i=0;i<wires.length;i++){
+            map[wires[i][0]-1][wires[i][1]-1]=0;
+            map[wires[i][1]-1][wires[i][0]-1]=0;
+            answer = Math.min(answer,bfs(map,n,wires[i][0]-1));
+            map[wires[i][0]-1][wires[i][1]-1]=1;
+            map[wires[i][1]-1][wires[i][0]-1]=1;
+        }
+        return answer;
+    }
+    public int bfs(int[][] map,int n,int m){
+        int[] visit= new int[n];
+        int count=1;
+        
+        Queue<Integer> queue= new LinkedList<>();
+        queue.offer(m);
+        
+        while(!queue.isEmpty()){
+            int point= queue.poll();
+            visit[point]= 1;
+            
+            for(int i=0; i<n; i++){ 
+                if(visit[i]==1) continue;
+                if(map[point][i]==1) {
+                    queue.offer(i);
+                    count++;
+                }
+            }
+        }
+        return Math.abs(2*count-n); 
+    }
+}

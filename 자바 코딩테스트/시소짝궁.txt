@@ -1,0 +1,21 @@
+import java.util.*;
+class Solution {
+    public long solution(int[] weights) {
+        HashMap<Integer,Integer> map = new HashMap<>(); 
+        
+        for(int i=0;i<weights.length;i++){
+            map.put(weights[i],map.getOrDefault(weights[i],0)+1);            
+        }
+        long answer = 0;     
+        
+        for(int i: map.keySet()){
+            for(int j: map.keySet()){
+                if(i==j) continue;
+                if(i*2==j||i*3==j*2||i*4==j*3)  answer+=(long)map.get(i)*map.get(j);
+            }
+             answer+=(long)map.get(i)*(map.get(i)-1)/2; 
+        }               
+        return answer;
+    }
+  
+}//최대공약수 문제?

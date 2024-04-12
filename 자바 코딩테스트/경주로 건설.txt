@@ -1,0 +1,39 @@
+import java.util.*;
+class Solution {
+    public int solution(int[][] board) {
+        int[][][] cost = new int[4][board.length][board.length];
+        int[] dx= {1,-1,0,0};
+        int[] dy= {0,0,1,-1};
+        for(int i=0;i<4;i++){
+            for(int j=0;j<board.length;j++){
+                Arrays.fill(cost[i][j],Integer.MAX_VALUE);
+            }
+        }                                            
+        Queue<int[]> queue = new PriorityQueue<>(new Comparator<int []>() {
+				@Override
+				public int compare(int[] o1, int[] o2) {
+				
+					return o1[2]-o2[2];
+				}
+			 });
+        queue.add(new int[]{0,0,0,0});
+        queue.add(new int[]{0,0,0,2});
+        while(!queue.isEmpty()){
+            int[] idx = queue.poll();
+            for(int i=0;i<4;i++){
+                int nx = dx[i]+idx[1];
+                int ny = dy[i]+idx[0];
+                int value = idx[2] + (idx[3]==i ? 100:600);
+                if(nx<0||ny<0||nx>=board.length||ny>=board.length||cost[i][ny][nx]<value||board[ny][nx]==1) continue;
+                cost[i][ny][nx]= value;
+                queue.add(new int[]{ny,nx,value,i});
+            }
+        }
+        int j=0;
+        int answer=Integer.MAX_VALUE;
+        for(int i=0;i<4;i++){
+            answer=Math.min(answer,cost[i][board.length-1][board.length-1]);
+        }
+        return answer;
+    }
+}//dp문제+ dfs bfs 둘다 가능

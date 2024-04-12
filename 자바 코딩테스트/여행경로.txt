@@ -1,0 +1,35 @@
+import java.util.*;
+class Solution {
+    public String[] solution(String[][] tickets) {
+        
+        boolean[] visit = new boolean[tickets.length+1];
+        ArrayList<String> list =new ArrayList<>();
+        //가장먼저 가는 알파벳 순서
+        Arrays.sort(tickets, (o1, o2) -> {
+           if(o1[0].equals(o2[0])) {
+               return o1[1].compareTo(o2[1]);
+           } else {
+               return o1[0].compareTo(o2[0]);
+           }
+        });
+        dfs(tickets,visit,list,"ICN","ICN",0);
+        String[] answer= list.get(0).split(" ");
+        
+       
+        return answer;
+    }
+    public void dfs(String[][] tickets,boolean[] visit,ArrayList<String> list,String start,String route,int count){
+        if(list.size()>=1) return;
+        if(count==tickets.length){         
+            list.add(route);
+            return;
+        }
+        for(int i=0;i<tickets.length;i++){
+            if(!visit[i]&&start.equals(tickets[i][0])){
+                visit[i]=true;
+                dfs(tickets,visit,list,tickets[i][1],route+" "+tickets[i][1],count+1);
+                visit[i]=false;
+            }
+        }
+    }
+}

@@ -1,0 +1,51 @@
+import java.util.*;
+class Solution {
+    
+    int[] dx ={0,0,1,-1};
+    int[] dy = {1,-1,0,0};
+    boolean[][] visited;
+    public int solution(String[] maps) {
+        int[] flag =new int[3]; 
+        visited=new boolean[maps.length][maps[0].length()];
+        for(int j=0;j<maps.length;j++){
+            if(flag[0]!=0) break;
+            String m=maps[j];
+            for(int i=0;i<m.length();i++){
+                if(m.charAt(i)=='L'){
+                    flag[0]=j;
+                    flag[1]=i;
+                    break;
+                }
+            }
+        }
+      
+        int one=cal(flag,maps,'S');
+        visited=new boolean[maps.length][maps[0].length()];
+        int two=cal(flag,maps,'E');     
+        if(one==-1||two==-1) return -1;
+        return one+two;
+    }
+    public int cal(int[] start,String[] maps,char type){
+        visited[start[0]][start[1]] = true; 
+        Queue<int[]> queue = new LinkedList<>();
+        queue.add(start); 
+
+        while(!queue.isEmpty()){ 
+            int[] cur = queue.poll();
+            for(int i=0;i<4;i++){
+                int nx = cur[0]+dx[i];
+                int ny = cur[1]+dy[i];
+                if(nx<0||ny<0||nx>=maps.length||ny>=maps[0].length()||maps[nx].charAt(ny)=='X'||visited[nx][ny]) continue;
+                if(maps[nx].charAt(ny)==type) return cur[2]+1;
+                
+                queue.offer(new int[]{nx,ny,cur[2]+1});
+                visited[nx][ny]=true;
+                
+            }
+            
+        }
+        return -1;
+    }
+    
+    
+}

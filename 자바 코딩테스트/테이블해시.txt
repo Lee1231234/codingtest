@@ -1,0 +1,28 @@
+
+import java.util.*;
+class Solution {
+    public int solution(int[][] data, int col, int row_begin, int row_end) {
+        int[] rowList = new int[row_end-row_begin+1];
+        int answer = 0;
+        //2번
+        Arrays.sort(data,(o1,o2)->{                       
+            if(o1[col-1]==o2[col-1]) return o2[0]-o1[0];
+            else return o1[col-1]-o2[col-1];});
+        //3번
+        for(int i= row_begin;i<=row_end;i++){
+            int tmp=0;
+            for(int j=0;j<data[0].length;j++){               
+                tmp+=data[i-1][j]%i;
+            }
+            rowList[i-row_begin]= tmp;
+        }
+        //4번
+        answer = rowList[0];
+        for(int i=1;i<rowList.length;i++){        
+            answer ^= rowList[i];
+        }
+    
+        
+        return answer;
+    }
+}

@@ -1,0 +1,35 @@
+import java.util.*;
+class Solution {
+    public int solution(String[] want, int[] number, String[] discount) {
+        HashMap<String,Integer> map = new HashMap<>();
+        int numberSize = 0;
+        int discountT=0;
+        int answer = 0;    
+        for(int i=0;i<number.length;i++){
+            numberSize += number[i];
+            map.put(want[i],number[i]);
+        }
+        List<Map.Entry<String,Integer>> entryList = new LinkedList<>(map.entrySet());
+     
+        
+        while(discount.length-discountT>=numberSize){
+            HashMap<String,Integer> mapT = new HashMap<>(map);
+            int numberT = numberSize;
+            for(int i=0;i<10;i++){
+                if(mapT.containsKey(discount[i+discountT])&&mapT.get(discount[i+discountT])>0){
+                    mapT.put(discount[i+discountT],mapT.get(discount[i+discountT])-1);
+                    numberT--;
+                 
+                }                  
+            }
+         
+            if(numberT==0){
+                answer++;
+            }
+            discountT++;
+        }
+      
+          
+        return answer;
+    }
+}

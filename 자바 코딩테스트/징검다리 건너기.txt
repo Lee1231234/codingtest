@@ -1,0 +1,39 @@
+import java.util.*;
+import java.util.stream.Collectors;
+class Solution {
+    public int solution(int[] stones, int k) {
+        int min=200000001,max=-1;
+        for(int i:stones){
+            max=Math.max(max,i);
+            min=Math.min(min,i);
+        }
+        int answer = 0;
+        while(min<=max){
+            int mid=(min+max)/2;
+            if(cross(stones,k,mid)){
+                min=mid+1;
+                answer=Math.max(answer,mid);
+                
+            }else{
+                max=mid-1;
+            }
+        }
+      
+        return answer;
+    }
+    public boolean cross(int[] stones,int k,int mid){
+        int count=0;
+        for(int stone:stones){
+            if(stone<mid){
+                count++;
+            }else{
+                count=0;
+            }
+            if(count==k){
+                return false;
+            }
+        }
+        return true;
+    }
+}
+//가장 큰값을 기준으로 이진탐색으로 답을 찾는다

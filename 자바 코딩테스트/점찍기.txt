@@ -1,0 +1,11 @@
+class Solution {
+    public long solution(int k, int d) {
+        long answer = 0;
+        for(long i=0;i<=d;i+=k){
+            long powY =(long)Math.pow((long)d,2)-(long)Math.pow(i,2);
+            
+            answer+=(long)Math.sqrt(powY)/k+1;          
+        }
+        return answer;
+    }
+}
