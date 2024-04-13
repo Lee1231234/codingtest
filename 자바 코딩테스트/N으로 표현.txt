@@ -1,0 +1,37 @@
+import java.util.*;
+class Solution {
+    public int solution(int N, int number) {
+    
+        List<HashSet<Integer>> list = new ArrayList<>();
+        //리스트 초기화 및 첫번째 리스트는 N이다.
+        for(int i=0;i<9;i++){
+            list.add(new HashSet());
+        }
+        list.get(1).add(N);
+        
+        if(N==number) return 1;
+        
+        for(int i=2;i<9;i++){
+            HashSet<Integer> comp = list.get(i);
+            for(int j=1;j<=i;j++){
+                HashSet<Integer> A = list.get(j);
+                HashSet<Integer> B = list.get(i-j);
+                for(int pre : A){
+                    for(int post : B){
+                        comp.add(pre + post);
+                        comp.add(pre - post);
+                        comp.add(pre * post);
+                        if(post!=0)
+                            comp.add(pre / post);
+                    }
+                }
+            }
+            comp.add(Integer.parseInt(String.valueOf(N).repeat(i)));          
+            if(comp.contains(number)){
+                return i;
+            }
+        }
+       
+        return -1;
+    }
+}
