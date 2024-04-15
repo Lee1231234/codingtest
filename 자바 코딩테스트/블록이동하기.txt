@@ -1,0 +1,88 @@
+import java.util.*;
+class Solution {
+    public int solution(int[][] board) {
+        int answer = Integer.MAX_VALUE;
+        //상하좌우
+        int[] dx = {-1,1,0,0};
+        int[] dy = {0,0,-1,1};
+        //회전
+        int[][] rx = {{-1,0,-1,0},{0,0,1,1}};
+        int[][] ry = {{0,0,1,1},{-1,0,-1,0}};
+        boolean[][][] visit = new boolean[2][board.length][board[0].length];
+        Queue<robot> queue = new LinkedList<>();
+        queue.add(new robot(0,0,0,0));
+        visit[0][0][0] = true;
+        while(!queue.isEmpty()){          
+            robot tmp = queue.poll();
+            //가로일때
+            if(tmp.dir==0&&tmp.x==board.length-1&&tmp.y==board.length-2){
+                answer = Math.min(answer,tmp.time);
+                continue;
+            }
+            //세로일때
+             if(tmp.dir==1&&tmp.x==board.length-2&&tmp.y==board.length-1){
+                answer = Math.min(answer,tmp.time);
+                continue;
+            }
+            //상하좌우
+            for(int i=0;i<4;i++){
+                int nx = tmp.x + dx[i];
+                int ny = tmp.y + dy[i];
+                //체크
+                if(!checkedBoard(nx,ny,board,tmp.dir)) continue;
+                if(!visit[tmp.dir][nx][ny]){                 
+                    queue.add(new robot(nx,ny,tmp.dir,tmp.time+1));
+                    visit[tmp.dir][nx][ny]=true;
+                }
+            }
+        
+            //회전
+            for(int i=0;i<4;i++){
+                int nx = tmp.x + rx[tmp.dir][i];
+                int ny = tmp.y + ry[tmp.dir][i];
+                
+                //회전가능한지 여부체크를 위한 x,y;
+                int cx=0;
+                int cy=0;
+                int ndir=0;
+                if(tmp.dir==0){
+                    cx = tmp.x + dx[i%2];
+                    cy = tmp.y + dy[i%2];
+                    ndir = 1;
+                }else{
+                    cx = tmp.x + dx[i<2?i+2:i];
+                    cy = tmp.y + dy[i<2?i+2:i];
+                    ndir = 0;
+                }
+                if(!checkedBoard(nx,ny,board,ndir)||!checkedBoard(cx,cy,board,tmp.dir)) continue;
+                if(!visit[ndir][nx][ny]){
+                    queue.add(new robot(nx,ny,ndir,tmp.time+1));
+                    visit[ndir][nx][ny]=true;
+                }
+            }
+        }
+       
+        return answer;
+    }
+    boolean checkedBoard(int nx,int ny,int[][] board,int dir){
+        int n=board.length;
+        if(dir==0){
+            if(nx<0||ny<0||nx>=n||ny>=n||ny+1>=n||board[nx][ny]!=0||board[nx][ny+1]!=0) return false;            
+        }else{
+            if(nx<0||ny<0||nx+1>=n||nx>=n||ny>=n||board[nx+1][ny]!=0||board[nx][ny]!=0) return false;
+        }
+        return true;
+    }
+    class robot{
+        int x;
+        int y;    
+        int dir;
+        int time;
+        robot(int x,int y,int dir,int time){
+            this.x=x; 
+            this.y=y; 
+            this.dir=dir;
+            this.time=time; 
+        }
+    }
+}//큐를 통한 문제풀이

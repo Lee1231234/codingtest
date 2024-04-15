@@ -1,0 +1,25 @@
+import java.util.*;
+
+class Solution {
+    public int[] solution(String[] words, String[] queries) {
+        int[] answer = new int[queries.length];
+        for(int i=0;i<queries.length;i++){
+            String pre = queries[i].substring(0,queries[i].indexOf("?"));
+            String post =queries[i].substring(queries[i].lastIndexOf("?")+1);
+            int first = queries[i].indexOf("?");
+            int last = queries[i].lastIndexOf("?");
+            int count = last - first + 1;
+            int idx=0;
+          
+            for(int j=0;j<words.length;j++){
+                if(queries[i].length()!=words[j].length()) continue;
+                if(pre.equals(words[j].substring(0,first))&&post.equals(words[j].substring(last+1))){
+                    idx++;
+                }
+            }
+            answer[i] = idx;
+        }
+       
+        return answer;
+    }
+}//완전탐색 x 트리구조 필요
