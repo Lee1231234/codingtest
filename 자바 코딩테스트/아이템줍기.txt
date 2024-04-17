@@ -1,0 +1,50 @@
+import java.util.*;
+class Solution {
+    int answer = Integer.MAX_VALUE;
+    boolean[][] visit;
+    int[] dx = {0,0,1,-1};
+    int[] dy = {1,-1,0,0};
+    int[][] map;
+    public int solution(int[][] rectangle, int characterX, int characterY, int itemX, int itemY) {
+        map = new int[102][102];
+        visit= new boolean[102][102];
+        for(int[] a: rectangle){
+            fill(a[0]*2,a[1]*2,a[2]*2,a[3]*2,map);
+        }
+        bfs(characterX*2,characterY*2,itemX*2,itemY*2);
+       
+        return answer/2;
+    }
+    void fill(int x1,int y1,int x2,int y2,int[][] map){
+        for(int i=x1; i<=x2; i++){
+            for(int j=y1; j<=y2; j++){
+                if(map[i][j]==2) continue;
+                map[i][j]=2;
+                if(i==x1||i==x2||j==y1||j==y2){
+                    map[i][j]=1;
+                }
+            }
+        }
+    }
+    void bfs(int Sx,int Sy,int Ex,int Ey){
+        Queue<int[]> q =new LinkedList<>();
+        q.add(new int[]{Sx,Sy,0});
+        while(!q.isEmpty()){
+            int[] tmp = q.poll();
+            for(int i=0; i<4; i++){
+                int nx= tmp[0]+dx[i];
+                int ny= tmp[1]+dy[i];
+                if(nx<0||ny<0||nx>=102||ny>=102) continue; 
+                if(map[nx][ny]!=1||visit[nx][ny]) continue;       
+                
+                int count = tmp[2] + 1;
+                if(nx==Ex&&ny==Ey){ 
+                    answer= Math.min(answer,count);
+                    continue;
+                }
+                visit[nx][ny]= true;
+                q.add(new int[]{nx,ny,count});              
+            }
+        }
+    }
+}

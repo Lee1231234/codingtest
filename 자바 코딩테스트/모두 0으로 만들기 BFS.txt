@@ -1,0 +1,59 @@
+import java.util.*;
+class Solution {
+    static long answer = 0;
+    static long[] tmp;
+    static boolean[] visit;
+    static List<Integer>[] list;
+    public long solution(int[] a, int[][] edges) {
+        list = new ArrayList[a.length];
+        visit = new boolean[a.length];
+        tmp = new long[a.length];
+        int[] adnode = new int[a.length]; 
+        Queue<Integer> q = new LinkedList<>();
+        long sum = 0;
+        for(int i=0;i<a.length;i++){
+            list[i] =new ArrayList<Integer>();
+            tmp[i] = a[i];
+            sum+=a[i];
+        }        
+        if(sum!=0) return -1;
+        //인접리스트 생성
+        for(int i=0;i<edges.length;i++){
+            adnode[edges[i][0]]++;
+            adnode[edges[i][1]]++;
+            list[edges[i][0]].add(edges[i][1]);
+            list[edges[i][1]].add(edges[i][0]);
+        }      
+        //bfs를 통한 부모노드로 값 이동
+         for (int i = 0; i < a.length; i++) { 
+            if (adnode[i] == 1)
+                q.add(i);
+        }
+
+        while (!q.isEmpty()) { 
+            int node = q.remove();
+
+            visit[node] = true;
+            long value = tmp[node];
+
+            for (int i = 0; i < list[node].size(); i++) { 
+                int next = list[node].get(i);
+
+                if (!visit[next]) {
+                    adnode[next]--;
+                    tmp[next] += value;
+                    tmp[node] = 0;
+                    answer += Math.abs(value);
+
+                    if (adnode[next] == 1) {
+                        q.add(list[node].get(i));
+                    }
+
+                    break;
+                }
+            }
+        }    
+        return answer;
+    }
+  
+}
