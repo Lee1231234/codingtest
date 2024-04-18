@@ -1,0 +1,73 @@
+import java.util.*;
+class Solution {
+    public int[] solution(int n, int[][] paths, int[] gates, int[] summits) {
+        HashSet<Integer> summit = new HashSet<>();
+        HashSet<Integer> gate = new HashSet<>();
+        PriorityQueue<Node> pq = new PriorityQueue<>();
+        int[] intensity = new int[n+1];
+        Arrays.fill(intensity,Integer.MAX_VALUE);
+        Arrays.sort(summits);
+        //node생성
+        List<Node>[] list = new ArrayList[n+1];
+        //노드 초기화
+        for(int i=0;i<n+1;i++){
+            list[i] = new ArrayList<>();
+        }
+        
+        //인접리스트 생성
+        for(int[] i: paths){
+            list[i[0]].add(new Node(i[1],i[2]));
+            list[i[1]].add(new Node(i[0],i[2]));
+        }
+        
+        //summit 정렬 해시화
+        for(int i : summits){
+            summit.add(i);
+        }
+        for(int i : gates){
+            gate.add(i);
+            pq.add(new Node(i,0));
+            intensity[i] = 0;
+        }
+        //다잌스트라
+       
+        dij(list,pq,summit,gate,intensity);
+        int index = -1;
+        int max = Integer.MAX_VALUE;
+        for(int i : summits){
+            if(max>intensity[i]){
+                index= i;
+                max= intensity[i];
+            }
+        }
+        return new int[]{index, max};
+    }
+    void dij(List<Node>[] list,PriorityQueue<Node> pq,HashSet<Integer> summit,HashSet<Integer> gate,int[] intensity){
+        while(!pq.isEmpty()){
+            Node node = pq.poll();
+            if(summit.contains(node.index)) continue;
+            if(node.value>intensity[node.index]) continue;
+            for(Node next : list[node.index]){
+                if(gate.contains(next.index)) continue;
+                int tmp =Math.max(node.value,next.value);
+                if(intensity[next.index]>tmp){                 
+                    intensity[next.index] = tmp;
+                    pq.add(new Node(next.index,intensity[next.index]));
+                }
+               
+            }
+        }
+    }
+    class Node implements Comparable<Node> {
+        int index;
+        int value;
+        
+        Node(int index,int value){
+            this.index= index;
+            this.value= value;
+        }
+        public int compareTo(Node node) {
+            return this.value - node.value;
+        }
+    }
+}
