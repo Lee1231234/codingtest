@@ -1,0 +1,93 @@
+import java.util.*;
+class Solution {
+    int[] index;
+    String[] map;
+    public String[] solution(String[] commands) {
+        index = new int[2501];
+        map = new String[2501];
+        ArrayList<String> answer = new ArrayList<>();
+        for(int i=0;i<=2500;i++){
+            index[i] =i;
+            map[i] = "";
+        }
+        for(String tokens : commands){
+            String[] token = tokens.split(" ");
+            switch(token[0]){
+                case "UPDATE":
+                    update(token);
+                    break;
+                case "MERGE":
+                    merge(token);
+                     break;
+                case "UNMERGE":
+                    unmerge(token);
+                     break;
+                case "PRINT":
+                    answer.add(print(token));
+                     break;
+            }
+          
+        }
+        
+        return answer.toArray(new String[0]);
+    }
+    String print(String[] token){
+        int idx = convert(token[1],token[2]);
+        int root = find(idx);
+        return  map[root].isBlank()?"EMPTY":map[root];      
+    }
+    void unmerge(String[] token){
+        int idx = convert(token[1],token[2]);
+        int root = find(idx);
+        
+        String val = map[root];
+        map[root] = "";
+        map[idx] = val;
+        ArrayList<Integer> list = new ArrayList<>();
+        for(int i=1;i<index.length;i++){        
+            if(root==find(i)){
+                list.add(i);
+            }
+        }
+        for(int i: list){
+           
+            index[i] = i;
+        }
+    }
+    void merge(String[] token){
+       if(token[1].equals(token[3])&&token[2].equals(token[4])) return;
+        
+        int num1 = convert(token[1], token[2]); 
+        int num2 = convert(token[3], token[4]); 
+        
+        int root1 = find(num1); 
+        int root2 = find(num2);         
+
+        if (root1 == root2) return; 
+        
+        String root = map[root1].isBlank() ? map[root2] : map[root1]; 
+        map[root2] = "";      
+        union(root1, root2); 
+        map[root1] = root; 
+    }
+    void update(String[] token){
+        if(token.length==4){
+            map[(find(convert(token[1],token[2])))] = token[3];
+        }else{
+            for(int i=0;i<map.length;i++){
+                if(map[i].equals(token[1])) map[i] = token[2];
+            }
+        }
+    }
+    int find(int num){
+        if(num == index[num]) return num;
+        return index[num] = find(index[num]);
+    }
+    void union(int num1,int num2){
+        if(num1!=num2) index[num2] = num1;
+    }
+    
+    int convert(String i,String j){
+        return (Integer.parseInt(i)-1) * 50 + Integer.parseInt(j);
+    }
+}
