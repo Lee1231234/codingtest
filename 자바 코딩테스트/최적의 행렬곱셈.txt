@@ -1,0 +1,29 @@
+import java.util.*;
+class Solution {
+    public int solution(int[][] matrix_sizes) {
+        int n= matrix_sizes.length;
+        int[][] DP = new int[n][n];   
+        int answer = 0; 
+ 
+        for(int i = 0; i < n; i++){ 
+
+            for(int j = 0; j < n-i; j++){ 
+            int a = j;  
+            int b = j + i;  
+            for(int k = a; k < b; k++){
+                if(DP[a][b]==0){
+                    DP[a][b]=DP[a][k] + DP[k+1][b] + (matrix_sizes[a][0] * matrix_sizes[k][1] * matrix_sizes[b][1]);
+                }else{
+                    DP[a][b] = Math.min(DP[a][b], DP[a][k] + DP[k+1][b] + (matrix_sizes[a][0] * matrix_sizes[k][1] * matrix_sizes[b][1]));
+                }
+           
+                answer=DP[a][b];
+            
+       }
+    }
+}
+       
+       
+        return answer;
+    }
+} // 상향식으로 문제를 풀면 DP 하향식으로 문제를 풀면 메모이제이션. 
