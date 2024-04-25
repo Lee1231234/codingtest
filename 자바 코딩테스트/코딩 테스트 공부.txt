@@ -1,0 +1,55 @@
+class Solution {
+    int[][] dp;
+    int maxalp;
+    int maxcop;
+    public int solution(int alp, int cop, int[][] problems) {       
+        for(int[] i : problems){
+            maxalp = Math.max(maxalp,i[0]);
+            maxcop = Math.max(maxcop,i[1]);
+        }
+        
+        if(maxalp==alp&&maxcop==cop) return 0;
+        if(maxalp<alp) maxalp = alp;
+        if(maxcop<cop) maxcop = cop;
+        
+        dp = new int[maxalp+1][maxcop+1];
+        for(int i=alp;i<=maxalp;i++){
+             for(int j=cop;j<=maxcop;j++){
+                dp[i][j] = Integer.MAX_VALUE-50;
+            }
+        }
+        dp[alp][cop] = 0;
+        for(int i=alp;i<=maxalp;i++){
+             for(int j=cop;j<=maxcop;j++){
+                
+                 if(j+1<=maxcop)
+                    dp[i][j+1] = Math.min(dp[i][j+1],dp[i][j]+1);
+                 if(i+1<=maxalp)
+                    dp[i+1][j] = Math.min(dp[i+1][j],dp[i][j]+1);
+                 
+                 solve(problems,i,j);
+            }
+        }
+        
+      
+        int answer = dp[maxalp][maxcop];
+        return answer;
+    }
+    void solve(int[][] p, int a,int c){
+        for(int[] i : p){
+            int rA = i[0];
+            int rC = i[1];
+            int iA = i[2]+a;
+            int iC = i[3]+c;
+            int cost = i[4];
+            
+            if(rA>a||rC>c) continue;
+            
+            if(iA>maxalp) iA=maxalp;
+            if(iC>maxcop) iC=maxcop;
+            
+            dp[iA][iC] = Math.min(dp[a][c]+cost,dp[iA][iC]);
+        }
+        
+    }
+}

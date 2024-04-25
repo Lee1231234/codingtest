@@ -1,0 +1,64 @@
+class Solution {
+    public int solution(int[][] beginning, int[][] target) {
+        int n = beginning.length;
+        int m = beginning[0].length;
+        int [][] map  = new int[n][m];
+        int answer = Integer.MAX_VALUE;
+        //비트 마스킹
+        for(int i=0;i < 2 << m;i++){
+            int tmp = 0;
+             
+            // 초기 값이 계속필요하므로 초기값 지정
+            arrayCopy(map,beginning);
+            
+            // col값
+            for(int j=0;j<m;j++){
+                if((i & 2 << j )== 0 ) continue;
+                tmp++;
+                flip(map,j);
+            }
+            //row값
+            boolean flag = false;
+            
+            for(int j=0;j<n;j++){
+                //이미 앞행에 값이 다르므로 break;
+                if(flag) break;
+                // row값 비교를 위한 if문 
+                if(map[j][0]==target[j][0]){
+                    for(int k=1;k<m;k++){
+                        
+                        if(map[j][k]!=target[j][k]){
+                            flag = true;
+                            break;
+                        }
+                    }
+                }else{
+                    for(int k=1;k<m;k++){
+                        if(map[j][k]==target[j][k]){
+                            flag =  true;
+                            break;
+                        }
+                    }
+                    if(!flag) tmp++;
+                }
+                
+               
+            }
+            //비교문
+            if(!flag) answer = Math.min(answer,tmp);
+        }
+        if(answer==Integer.MAX_VALUE) return -1;
+        return answer;
+    }
+    
+    void arrayCopy(int[][] map,int[][] begin){
+         for(int i=0;i<begin.length;i++){           
+            System.arraycopy(begin[i], 0, map[i], 0, begin[0].length);        
+        }
+    }
+    void flip(int[][] map,int j){
+        for(int i=0;i<map.length;i++){
+            map[i][j] = map[i][j]== 0 ? 1 : 0 ;
+        }
+    }
+}//비트 마스킹을 이용한 문제풀이
