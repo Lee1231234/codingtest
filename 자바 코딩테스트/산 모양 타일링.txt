@@ -1,0 +1,24 @@
+class Solution {
+    public int solution(int n, int[] tops) {
+        int oldtop = tops[0]==1?3:2;
+        int oldtopcut = 1;
+        int newtopcut =0;
+        int newtop = 0;  
+        if(n==1) return oldtop+1;
+        for(int i=1;i<tops.length;i++){
+            newtopcut= oldtop+oldtopcut;
+            if(tops[i]==1){
+                newtop = oldtop *3 + oldtopcut*2;
+            }else{
+                newtop = oldtop *2 + oldtopcut;
+            }
+            oldtopcut=newtopcut%10007;
+            oldtop=newtop%10007;
+            
+        }
+        return (newtop+newtopcut)%10007;
+    }
+}//처음 삼각형은 4아니면3
+//2번쨰 삼각형은? 14  11 8 
+// 다음 삼각형이 봉우리가 있을때  newtop = oldtop *3 + oldtopcut*2;
+// 없을때  newtop = oldtop *2 + oldtopcut;
