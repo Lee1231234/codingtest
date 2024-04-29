@@ -1,0 +1,72 @@
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+class Solution {
+    public int solution(String word, String[] pages) {
+       
+      
+        info[] page =new info[pages.length];
+       
+        
+        for(int i=0;i<pages.length;i++){
+            page[i] = new info();
+            ArrayList<String> url =new ArrayList<>();
+            // 자기 url 찾기  <meta property="og:url" content="https://careers.kakao.com/index" />
+            Matcher m = Pattern.compile("(<meta property=\"og:url\" content=\"https://(\\S*)\")").matcher(pages[i]);
+            while(m.find()){
+                String name = m.group(2);
+               page[i].url =name;
+            }                               
+            // basic 점수 찾기             
+            m = Pattern.compile("(?i)(?<=[^a-zA-Z])("+word+")([^a-zA-Z])").matcher(pages[i]);
+            while(m.find()){
+             
+                page[i].basic +=1;
+            }
+          
+            // 외부 url 찾기
+            m = Pattern.compile("(<a href=\"https://(\\S*)\">)").matcher(pages[i]);
+            while(m.find()){
+                String name = m.group(2);                  
+                url.add(name);
+            }
+            page[i].outurl = new ArrayList<>(url);
+            page[i].outurlvalue = (double)page[i].basic/(double)page[i].outurl.size();
+            page[i].total = (double)page[i].basic;
+        }
+        //외부 url의 대한 자신의 점수 찾기
+        for(int i=0;i<page.length;i++){
+            for(String s : page[i].outurl){
+                 for(int j=0;j<page.length;j++){
+                      
+                     if(i == j) continue;
+                    
+                     if(s.equals(page[j].url)){
+                        page[j].total += page[i].outurlvalue;                    
+                     }
+                
+                 }
+            }
+           
+        }
+        double max =0;
+        int answer = 0;
+        for(int i=0;i<pages.length;i++){
+          
+            if(max<page[i].total){
+                answer =i;
+                max= page[i].total;
+            }
+            
+        }
+
+        return answer;
+    }
+    class info{
+        String url;
+        int basic;
+        ArrayList<String> outurl;
+        double outurlvalue;
+        double total;
+    }
+}
