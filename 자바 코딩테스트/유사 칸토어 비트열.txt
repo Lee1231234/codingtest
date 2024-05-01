@@ -1,0 +1,29 @@
+class Solution {
+    public int solution(int n, long l, long r) {
+        
+        long answer = sol(n,r)-sol(n,l-1);      
+        return (int)answer;
+    }
+    long sol (int n,long k){
+        if(n==1){
+            return k<=2?k:k-1;
+        }
+        long div = (long)Math.pow(5,n-1);
+        long muk = (long)Math.pow(4,n-1);
+        long loc = k/div;
+        
+        if(k % div==0) loc-=1;
+        
+        if(loc<2){
+            return  muk*loc + sol(n-1,k-loc*div);
+        }else if(loc==2){
+            return muk*loc;            
+        }else{
+            return muk*(loc-1) + sol(n-1,k-loc*div);
+        }
+        
+    }
+  
+}
+
+    

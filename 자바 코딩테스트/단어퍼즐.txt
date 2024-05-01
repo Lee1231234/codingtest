@@ -1,0 +1,37 @@
+class Solution {
+    public int solution(String[] strs, String t) {
+        //str의 길이
+        int strLength = strs.length;
+        // t의 길이 
+        int tLength = t.length()+1;
+        // dp
+        int[] dp = new int[tLength+1]; //0번째는 값이 없음 
+        
+        for(int i=1;i<tLength;i++){
+            for(int j=0;j<strLength;j++){
+                int token = strs[j].length();
+                //만약 현재까지의 길이보다 이번에 받은 문자열이 길면 음수 
+                if(i-token<0) continue;
+                //만약 현재 지금까지길이에서 문자를 받았을때 만들수있다면 예를 들어 ba를 만났는데 ba가 str에 존재한다면?
+                if(strs[j].equals(t.substring(i-token,i))){
+                    if(i-token==0){
+                        //같은 단어가 존재할수없으므로 dp[i] =1;
+                        dp[i] = 1; 
+                        continue;
+                    }
+                    if(dp[i-token]>0){// 이전 dp값이 존재한다. -> 이전에 만든 문자열이 존재함.
+                        //dp의 값이 0이 아닐경우에는 그냥 문자열에 +1 있다면 기존 dp값과 비교해서 가장 낮은 값을 넣음.
+                        dp[i]=dp[i]==0?dp[i-token]+1:Math.min(dp[i],dp[i-token]+1);
+                        
+                    }
+                }
+            }
+            
+        }
+        int answer = dp[tLength-1];
+        if(answer==0) return -1;
+                                   
+
+        return answer;
+    }
+}
