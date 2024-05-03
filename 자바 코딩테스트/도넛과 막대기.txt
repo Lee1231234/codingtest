@@ -1,0 +1,39 @@
+import java.util.*;
+class Solution {
+    public int[] solution(int[][] edges) {
+        int[] answer = new int[]{0,0,0,0};
+        HashMap<Integer,int[]> map =  new HashMap<>();
+        
+        //입출력 정렬
+        for(int[] edge : edges){           
+            cotains(edge[0],map);        
+            cotains(edge[1],map);
+        
+            map.get(edge[0])[0] += 1;
+    		map.get(edge[1])[1] += 1;
+        }
+        
+        // 문제 확인
+        for(int key : map.keySet()) {  
+            //정점 나가는 간선 >2 들어오는간선 ==0
+            if(map.get(key)[0]>=2&&map.get(key)[1]==0){
+                answer[0] = key;
+            }// 막대그래프 나가는간선 ==0 들어오는 간선 >=1
+            else if(map.get(key)[0]==0&&map.get(key)[1]>=1){
+                answer[2]++;
+            }// /8그래프 나가는 간선 >1 들어오는 간선>1
+            else if(map.get(key)[0]>=2&&map.get(key)[1]>=2){
+                 answer[3]++;
+            }
+           
+        }
+         // 도넛모양 그래프  root에서 나가는 간선의 수-막대그래프 숫자-8그래프 숫자  
+        answer[1] = map.get(answer[0])[0]- answer[2] -answer[3];
+        return answer;
+    }
+    void cotains(int i,HashMap<Integer,int[]> map){
+        if(!map.containsKey(i)){
+                map.put(i,new int []{0,0});
+        }
+    }
+}
