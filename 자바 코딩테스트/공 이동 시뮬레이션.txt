@@ -1,0 +1,42 @@
+class Solution {
+    int[] dy = new int[]{1,-1,0,0};
+    int[] dx = new int[]{0,0,1,-1};
+    public long solution(int n, int m, int x, int y, int[][] queries) {
+        long answer = -1;
+        int sx,sy,ex,ey;
+        sx = ex = x;
+        sy = ey = y;
+        for(int i=queries.length-1;i>=0;i--){
+            //y열의 증가 감소
+            if(queries[i][0]==1||queries[i][0]==0){
+               int[] tmp = nextquery(m,queries[i][1]*dy[queries[i][0]],sy,ey);
+               if(tmp[0]==-1) return 0;
+                sy = tmp[0];
+                ey = tmp[1];
+            }else{//x행의 증가 감소                 
+                int[] tmp = nextquery(n,queries[i][1]*dx[queries[i][0]],sx,ex);               
+                if(tmp[0]==-1) return 0;
+                sx = tmp[0];
+                ex = tmp[1];
+            }
+        }
+        
+        return (long)(ex-sx+1) * (long)(ey-sy+1);
+    }
+   
+       
+    int[] nextquery(int m,int dir,int start,int end){
+        int nexts = (start==0&& dir>0) ? 0 : start + dir;
+        int nexte = (end==m-1&& dir<0) ? m-1 : end + dir;
+        if((nexts < 0 || nexts >= m ) && (nexte < 0 || nexte > m)){
+            return new int[]{-1,-1};
+        }else if(nexts < 0 && nexte >= 0 && nexte < m) {
+            return new int[]{0, nexte};
+        }else if (nexte >= m && nexts >= 0 && nexts < m) {
+            return new int[]{nexts, m-1};
+        }
+        return new int[]{nexts, nexte};     
+    }
+}// DFS BFS로 풀기에는 범위가 너무 넓음
+//역순으로 풀어야겠다.
+// 역순으로 값을 늘려가면서 풀면 마지막 증가값을 곱하면 최대값이 나온다.
