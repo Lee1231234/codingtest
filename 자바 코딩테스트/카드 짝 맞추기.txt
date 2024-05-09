@@ -1,0 +1,119 @@
+import java.util.*;
+class Solution {
+    static HashSet<Integer> set;
+    static boolean[]  visitPerm;
+    static int answer;
+    static int[][] dist = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+    int[] dx = {1,-1,0,0};
+    int[] dy = {0,0,1,-1};
+    public int solution(int[][] board, int r, int c) {
+        
+        answer = Integer.MAX_VALUE;
+        visitPerm = new boolean[7];
+        set = new HashSet<>();
+        for(int i=0; i<4; i++) {
+            for(int j=0; j<4; j++) {
+                if(board[i][j] == 0) continue;
+                set.add(board[i][j]);
+            }
+        }
+        
+        Perm(0, new int[set.size()], board, r, c);
+        return answer+1;
+    }
+    
+    //순열 카드조합 만들기
+    void Perm(int count, int[] arr, int[][] board, int r, int c) {
+        if(set.size() == count) {          
+            bfs(board, arr, r, c);                   
+            return;
+        }
+
+        for(int i=1; i<=6; i++) {
+            if(!set.contains(i) || visitPerm[i]) continue;
+            visitPerm[i] = true;
+            arr[count] = i;
+            Perm(count+1, arr, board, r, c);
+            visitPerm[i] = false;
+        }
+    }
+    //bfs돌리기
+    void bfs(int[][] board, int[] arr, int sr, int sc) {
+        Queue<int[]> q = new LinkedList<>();
+      
+        boolean[][] visit = new boolean[4][4];  
+        boolean[][] boardVisit = new boolean[4][4];
+     
+        int count =0;    
+        int idx =0;      
+        boolean flag = false;
+        
+        q.add(new int[]{sr,sc});
+        visit[sr][sc] = true;
+        while(!q.isEmpty()) {          
+            int len = q.size();
+            for(int l=0; l<len; l++) {
+                int[] now =q.poll();
+                
+                if(board[now[0]][now[1]]==arr[idx] && !boardVisit[now[0]][now[1]]){                   
+                               
+                    
+                    boardVisit[now[0]][now[1]] = true; 
+                    
+                    q.clear();
+                    visit = new boolean[4][4];    
+                    
+                    q.add(new int[]{now[0],now[1]});
+                    visit[now[0]][now[1]] = true;
+                    
+                    
+                    if(!flag){
+                        flag= true;
+                    }else{                     
+                        flag = false;                    
+                        idx++;                                   
+                        if(idx >= arr.length) {                                           
+                            answer = Math.min(answer, count);                        
+                            return;                                                    
+                        }
+                    }
+                    break;    
+                }
+                                
+        
+                for(int i=0;i<4;i++){
+                    int nx = now[0] + dx[i];
+                    int ny = now[1] + dy[i];
+                    if(!safe(nx,ny)||visit[nx][ny])continue;
+                    visit[nx][ny]= true;
+                    q.add(new int[]{nx,ny});
+                }
+
+
+                //Ctrl + 움직임
+                for(int i=0;i<4;i++){
+                    int nx = now[0];
+                    int ny = now[1];
+                    //범위 끝이면 종료되는 while문
+                    while(safe(nx+dx[i],ny+dy[i])){
+                        nx+=dx[i];
+                        ny+=dy[i];
+                                                                  
+                        if(!boardVisit[nx][ny]&&board[nx][ny]!=0) break;
+                    }                
+                    if(!safe(nx,ny)||visit[nx][ny])continue;
+                    visit[nx][ny]= true;
+                    q.add(new int[]{nx,ny});
+                  
+                }                            
+            }
+             count++;    
+        }        
+    }
+    
+   
+     boolean safe(int x, int y) {
+        return 0<=x && x<4 && 0<=y && y<4;
+    }
+    
+}
