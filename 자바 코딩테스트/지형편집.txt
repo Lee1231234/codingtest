@@ -1,0 +1,43 @@
+public class Solution {
+    public long solution(int[][] land, int P, int Q) {
+        long start = land[0][0];
+        long end = land[0][0];
+        long answer = -1;
+        for(int i=0;i<land.length;i++){
+            for(int j=0;j<land.length;j++){
+                if(land[i][j]< start)
+                    start = land[i][j];
+                if(land[i][j]>end)
+                    end = land[i][j];
+            }
+        }
+        //이분탐색
+         long mid;
+        while(start<=end){
+            mid = (start+end)/2;
+            long lCost = costFunc(mid,P,Q,land);
+            long rCost = costFunc(mid+1,P,Q,land);
+            if(lCost>rCost){
+                answer = rCost;
+                start = mid + 1;
+            }else{
+                answer = lCost;
+                end = mid - 1;
+            }
+        }
+        return answer;
+    }
+    long costFunc(long value,int P,int Q,int[][] land){
+        long cost=0;
+        for(int i=0;i<land.length;i++){
+            for(int j=0;j<land.length;j++){
+                if(land[i][j]>value){
+                    cost+= (land[i][j]-value)*Q;
+                }else if(land[i][j]<value){
+                    cost+= (value-land[i][j])*P;
+                }
+            }
+        }
+        return cost;
+    }
+}//이분탐색 무엇을? 
