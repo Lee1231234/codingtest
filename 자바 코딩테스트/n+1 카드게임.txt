@@ -1,0 +1,60 @@
+import java.util.*;
+class Solution {
+    public int solution(int coin, int[] cards) {
+        HashSet<Integer> set =new HashSet<>();
+        HashSet<Integer> setadd =new HashSet<>();
+        int answer = 0;
+        int target = cards.length+1;
+        int idx= cards.length/3;
+        for(int i=0;i<idx;i++){
+            set.add(cards[i]);
+        }
+        
+       
+        while(true){
+            boolean flag= false;
+            answer++;//무조건 1라운드는 도착
+            if(idx>=cards.length) break;
+            setadd.add(cards[idx]);
+            setadd.add(cards[idx+1]);
+            idx+=2;
+            for(int i : set){
+                 if(set.contains(target-i)){
+                     set.remove(i);
+                     set.remove(target-i);
+                     flag= true;
+                     break;
+                 }
+            }
+            if(flag) continue;
+            if(coin>0){
+                for(int i : set){                    
+                    if(setadd.contains(target-i)){                    
+                        set.remove(i);                    
+                        setadd.remove(target-i);                    
+                        flag= true;                   
+                        coin--;                    
+                        break;                
+                    }
+                }
+            }
+            
+            if(flag) continue;
+            if(coin>1){
+                for(int i : setadd){
+                    if(setadd.contains(target-i)){                    
+                        setadd.remove(i);
+                        setadd.remove(target-i);
+                        flag= true;
+                        coin-=2;
+                        break;                 
+                    }           
+                }
+            }
+             
+            if(!flag) break;
+        }
+    
+        return answer;
+    }
+}
